@@ -1,21 +1,27 @@
-NAME := fdf
-CC := cc
-SRC := fdf.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
-CFLAGS := -Wall -Wextra -Werror -g
-LIBS := libft/libft.a ft_printf/libftprintf.a
-OBJ := $(SRC:%.c=%.o)
+NAME	:= fdf
+CC		:= cc
+SRC		:= fdf.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
+CFLAGS	:= -Wall -Wextra -Werror -g
+LIBS	:= libft/libft.a ft_printf/libftprintf.a
+OBJ		:= $(SRC:%.c=%.o)
 
-all: $(NAME)
+all		: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME)	: $(OBJ)
+	make -C ft_printf all
+	make -C libft all
 	$(CC) $(OBJ) $(LIBS) -lmlx -lXext -lX11 -lm -o $(NAME)
 
-clean:
+clean	:
+	make -C ft_printf clean
+	make -C libft clean
 	rm $(OBJ)
 
-fclean: clean
-	rm $(NAME)
+fclean	:
+	make -C ft_printf fclean
+	make -C libft fclean
+	rm $(OBJ) $(NAME)
 
-re:	fclean all
+re		: fclean all
 
-.PHONY: all clean fclean re
+.PHONY	: all clean fclean re
