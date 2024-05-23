@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/23 17:29:15 by anarama          ###   ########.fr       */
+/*   Created: 2024/04/08 12:04:35 by anarama           #+#    #+#             */
+/*   Updated: 2024/04/08 13:19:21 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-#define FDF_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include "libft/libft.h"
-# include "ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <mlx.h>
-
-
-typedef struct 
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	int **grid;
-	int width;
-	int length;
-} t_map;
+	t_list	*temp;
 
-#endif
+	if (*lst == NULL || del == NULL)
+		return ;
+	while (*lst != NULL)
+	{
+		temp = (*lst)->next;
+		del((*lst)->content);
+		free(*lst);
+		*lst = temp;
+	}
+}

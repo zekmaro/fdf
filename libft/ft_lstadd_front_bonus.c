@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_lstadd_front_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/23 17:29:15 by anarama          ###   ########.fr       */
+/*   Created: 2024/04/07 20:15:53 by anarama           #+#    #+#             */
+/*   Updated: 2024/04/15 11:46:10 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-#define FDF_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include "libft/libft.h"
-# include "ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <mlx.h>
-
-
-typedef struct 
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	int **grid;
-	int width;
-	int length;
-} t_map;
-
-#endif
+	if (new == NULL)
+		return ;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	new->next = *lst;
+	*lst = new;
+}

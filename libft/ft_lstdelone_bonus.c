@@ -1,33 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/23 17:29:15 by anarama          ###   ########.fr       */
+/*   Created: 2024/04/08 11:58:17 by anarama           #+#    #+#             */
+/*   Updated: 2024/04/08 13:17:40 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-#define FDF_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include "libft/libft.h"
-# include "ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <mlx.h>
-
-
-typedef struct 
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-	int **grid;
-	int width;
-	int length;
-} t_map;
-
-#endif
+	if (lst == NULL || del == NULL)
+		return ;
+	del(lst->content);
+	free(lst);
+}

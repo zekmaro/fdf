@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/23 17:29:15 by anarama          ###   ########.fr       */
+/*   Created: 2024/04/07 13:08:43 by anarama           #+#    #+#             */
+/*   Updated: 2024/04/07 14:28:51 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-#define FDF_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include "libft/libft.h"
-# include "ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <mlx.h>
-
-
-typedef struct 
+void	ft_putstr_fd(char *s, int fd)
 {
-	int **grid;
-	int width;
-	int length;
-} t_map;
-
-#endif
+	if (s == NULL)
+		return ;
+	while (*s)
+	{
+		ft_putchar_fd(*s, fd);
+		s++;
+	}
+}

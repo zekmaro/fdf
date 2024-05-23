@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/23 17:29:15 by anarama          ###   ########.fr       */
+/*   Created: 2024/04/04 10:24:35 by anarama           #+#    #+#             */
+/*   Updated: 2024/04/15 11:57:58 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-#define FDF_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include "libft/libft.h"
-# include "ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <mlx.h>
-
-
-typedef struct 
+void	*ft_calloc(size_t num, size_t size)
 {
-	int **grid;
-	int width;
-	int length;
-} t_map;
+	char	*mem;
+	size_t	total_size;
 
-#endif
+	total_size = size * num;
+	if (num == 0 || size == 0)
+		total_size = 0;
+	else if (SIZE_MAX / num < size)
+		return (NULL);
+	mem = (char *)malloc(total_size);
+	if (!mem)
+		return (NULL);
+	return (ft_memset(mem, 0, total_size));
+}

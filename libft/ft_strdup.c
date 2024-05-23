@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/23 17:29:15 by anarama          ###   ########.fr       */
+/*   Created: 2024/04/04 10:30:43 by anarama           #+#    #+#             */
+/*   Updated: 2024/04/08 20:56:34 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-#define FDF_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include "libft/libft.h"
-# include "ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <mlx.h>
-
-
-typedef struct 
+char	*ft_strdup(const char *s)
 {
-	int **grid;
-	int width;
-	int length;
-} t_map;
+	size_t		len_s;
+	char		*dup_s;
+	char		*temp_dup_s;
 
-#endif
+	len_s = ft_strlen(s);
+	dup_s = (char *)malloc(sizeof(char) * len_s + 1);
+	if (!dup_s)
+		return (NULL);
+	temp_dup_s = dup_s;
+	while (*s)
+		*dup_s++ = *s++;
+	*dup_s = '\0';
+	return (temp_dup_s);
+}

@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/23 17:29:15 by anarama          ###   ########.fr       */
+/*   Created: 2024/04/03 10:36:19 by anarama           #+#    #+#             */
+/*   Updated: 2024/04/08 20:24:27 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-#define FDF_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include "libft/libft.h"
-# include "ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <mlx.h>
-
-
-typedef struct 
+void	*ft_memmove(void *str1, const void *str2, size_t n)
 {
-	int **grid;
-	int width;
-	int length;
-} t_map;
+	char		*dest;
+	const char	*src;
 
-#endif
+	if (str1 == NULL && str2 == NULL)
+		return (NULL);
+	dest = (char *)str1;
+	src = (char *)str2;
+	if (dest <= src)
+	{
+		while (n--)
+			*dest++ = *src++;
+	}
+	else
+	{
+		src += n - 1;
+		dest += n - 1;
+		while (n--)
+			*dest-- = *src--;
+	}
+	return (str1);
+}

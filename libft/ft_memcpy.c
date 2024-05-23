@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/23 17:29:15 by anarama          ###   ########.fr       */
+/*   Created: 2024/04/02 17:45:29 by anarama           #+#    #+#             */
+/*   Updated: 2024/04/09 11:44:30 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-#define FDF_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include "libft/libft.h"
-# include "ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <mlx.h>
-
-
-typedef struct 
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	int **grid;
-	int width;
-	int length;
-} t_map;
+	char		*temp_dest;
+	char		*temp_src;
 
-#endif
+	if (dest == NULL && src == NULL)
+		return (NULL);
+	temp_dest = (char *)dest;
+	temp_src = (char *)src;
+	while (n--)
+		*temp_dest++ = *temp_src++;
+	return (dest);
+}
