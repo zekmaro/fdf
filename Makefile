@@ -15,12 +15,12 @@ $(NAME)	: $(OBJ)
 clean	:
 	make -C ft_printf clean
 	make -C libft clean
-	rm $(OBJ)
+	rm -f $(OBJ)
 
 fclean	:
 	make -C ft_printf fclean
 	make -C libft fclean
-	rm $(OBJ) $(NAME)
+	rm -f $(OBJ) $(NAME)
 
 re		: fclean all
 
