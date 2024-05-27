@@ -1,6 +1,11 @@
 NAME	:= fdf
 CC		:= cc
-SRC		:= fdf.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
+SRC		:=	fdf.c \
+			get_next_line/get_next_line.c \
+			get_next_line/get_next_line_utils.c \
+			utils.c \
+			parsing.c \
+			drawing.c 
 CFLAGS	:= -Wall -Wextra -Werror -g
 LIBS	:= libft/libft.a ft_printf/libftprintf.a
 OBJ		:= $(SRC:%.c=%.o)

@@ -6,172 +6,85 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/25 16:12:38 by anarama          ###   ########.fr       */
+/*   Updated: 2024/05/27 19:07:21 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	free_memory(char **arr)
+void isometric_transform(int *x, int *y)
 {
-	char	**temp;
+    int iso_x;
+    int iso_y;
+    double angle = M_PI / 6; // 30 degrees in radians
 
-	temp = arr;
-	while (*arr)
+    iso_x = (*x - *y) * cos(angle);
+    iso_y = (*x + *y) * sin(angle);
+
+    *x = iso_x;
+    *y = iso_y;
+}
+
+void draw_line(t_mlx *mlx, t_line *line, int color)
+{
+	int dx;
+	int dy;
+	int step_x;
+	int step_y;
+
+	dx = abs(line->x1 - line->x0);
+	dy = abs(line->y1 - line->y0);
+	step_x = 0;
+	step_y = 0;
+	if (line->x0 < line->x1)
+		step_x = 1;
+	else if (line->x0 > line->x1)
+		step_x = -1;
+	if (line->y0 < line->y1)
+		step_y = 1;
+	else if (line->y0 > line->y1)
+		step_y = -1;
+	while (1)
 	{
-		free(*arr);
-		arr++;
+		mlx_pixel_put(mlx->mlx, mlx->win, line->x0, line->y0 , color);
+		if (line->x0 == line->x1 && line->y0 == line->y1)
+			break ;
+		line->x0 += step_x;
+		line->y0 += step_y;
 	}
-	free(temp);
 }
 
-void ft_free_map(t_map *map)
+void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, int color, int step)
 {
-    int i;
-
-    i = 0;
-    while (i < map->width)
-    {
-        free(map->grid[i]);
-        i++;
-    }
-    free(map->grid);
-}
-
-void ft_print_map(t_map *map)
-{
-    int i;
-    int j;
-
-    i = 0;
-    while (i < map->width)
-    {
-        j = 0;
-        while (j < map->length)
-        {
-            ft_printf("%d ", map->grid[i][j]);
-            j++;
-        }
-        ft_printf("\n");
-        i++;
-    }
-}
-
-int count_new_lines(int fd)
-{
-    char buffer;
-    int read_bytes;
-    int new_lines;
-
-    read_bytes = 1;
-    new_lines = 0;
-    while (read_bytes > 0)
-    {
-		read_bytes = read(fd, &buffer, 1);
-        if (buffer == '\n')
-            new_lines++;
-    }
-    if (read_bytes == -1) // Error handling for read
-    {
-        perror("read");
-        exit(EXIT_FAILURE);
-    }
-    return (new_lines);
-}
-
-int *convert_line_to_int_arr(char *str, int *length)
-{
-    char **temp;
-    int i;
-    int *row;
-
-    temp = ft_split(str, ' ');
-    if (!temp)
-    {
-        return NULL;
-    }
-    i = 0;
-    *length = 0;
-    while (temp[i] != NULL)
-    {
-        (*length)++;
-        i++;
-    }
-    row = malloc(sizeof(int) * (*length));
-    if (!row)
-    {
-        free_memory(temp); // Ensure to free split array
-        return NULL;
-    }
-    i = 0;
-    while (temp[i] != NULL)
-    {
-        row[i] = ft_atoi(temp[i]);
-        i++;
-    }
-    free_memory(temp); // Free the split array to avoid memory leak
-    return (row);
-}
-
-void read_map(int fd, t_map *map, char *file_name)
-{
-    char *line;
-    int i;
-    int save_length;
-
-    map->width = count_new_lines(fd); // Handle edge case if returned 0
-	close(fd);
-    if (map->width == 0)
-    {
-        perror("Empty or invalid file!\n");
-        exit(EXIT_FAILURE);
-    }
-    map->grid = (int **)malloc(sizeof(int *) * map->width);
-    if (!map->grid)
-    {
-        perror("Memory allocation error for grid!\n");
-        exit(EXIT_FAILURE);
-    }
-    fd = open(file_name, O_RDONLY);
-    if (fd < 0)
-    {
-		ft_free_map(map);
-        perror("Invalid file descriptor!\n");
-        exit(EXIT_FAILURE);
-    }
-    save_length = 0;
-    i = 0;
-    while (i < map->width)
-    {
-        line = get_next_line(fd); // Handle potential NULL return
-        if (!line)
-        {
-            ft_free_map(map);
-            perror("Error reading line!\n");
-            close(fd);
-            exit(EXIT_FAILURE);
-        }
-        map->grid[i] = convert_line_to_int_arr(line, &(map->length));
-        free(line);
-        if (map->grid[i] == NULL)
-        {
-            ft_free_map(map);
-            close(fd);
-            perror("Error allocating map memory!\n");
-            exit(EXIT_FAILURE);
-        }
-        if (i == 0)
-            save_length = map->length;
-        else if (i != 0 && (save_length != map->length))
-        {
-            ft_free_map(map);
-            close(fd);
-            perror("Inconsistent row length!\n");
-            exit(EXIT_FAILURE);
-        }
-        i++;
-    }
-    close(fd);
+	int dest_x;
+	int dest_y;
+	int source_x;
+	int source_y;
+	int save;
+	
+	dest_x = line->x0 + step * map->length;
+	dest_y = line->y0 + step * map->width;
+	source_y = line->y0;
+	save = line->x0;
+	while (source_y <= dest_y)
+	{
+		source_x = save;
+		while (source_x <= dest_x)
+		{
+			line->x0 = source_x;
+			line->y0 = source_y;
+			line->y1 = source_y + step;
+			line->x1 = source_x;
+			draw_line(mlx, line, color);
+			line->x0 = source_x;
+			line->y0 = source_y;
+			line->y1 = source_y;
+			line->x1 = source_x + step;
+			draw_line(mlx, line, color);
+			source_x += step;
+		}
+		source_y += step;
+	}
 }
 
 int main(int argc, char **argv)
@@ -191,10 +104,37 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
     ft_bzero(&map, sizeof(t_map));
-    read_map(fd, &map, argv[1]);
-    ft_print_map(&map);
+    if (!read_map(fd, &map, argv[1]))
+	{
+		ft_free_map(&map);
+        perror("Error reading line!\n");
+        exit(EXIT_FAILURE);
+	}
+	ft_print_map(&map);
+
+	
+	t_mlx mlx;  // Initialize MLX structure
+	t_line line;
+	int step;
+
+	ft_bzero(&mlx, sizeof(mlx));
+	ft_bzero(&line, sizeof(line));
+	
+	line.x0 = 100;
+	line.y0 = 100;
+	step = 20;
+	
+    mlx.mlx = mlx_init();  // Initialize MiniLibX
+    mlx.win = mlx_new_window(mlx.mlx, 800, 600, "Draw Grid");
+	draw_plane(&mlx, &line, &map, 0xFFFFFF, step);
+
+	mlx_loop(mlx.mlx);
     ft_free_map(&map);
     return (0);
 }
 
 // Leaking one byte probably because of GNL somewhere
+// DRAW LINE 
+// DRAW PLANE 
+// ADD COLORS
+// DRAW PLANE WITH COLORS
