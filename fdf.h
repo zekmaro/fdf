@@ -6,12 +6,12 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/27 17:31:34 by anarama          ###   ########.fr       */
+/*   Updated: 2024/05/29 18:33:31 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
-#define FDF_H
+# define FDF_H
 
 # include "get_next_line/get_next_line.h"
 # include <stdlib.h>
@@ -23,13 +23,22 @@
 # include <mlx.h>
 # include <math.h>
 
+// KEY DEFINITION
+# define KEY_ESC 53
+# define KEY_PLUS 24
+# define KEY_MINUS 27
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_UP 126
+# define KEY_DOWN 125
+
 
 typedef struct s_map
 {
 	int **grid;
 	int width;
 	int length;
-	int *color;
+	int **colors;
 } t_map;
 
 typedef struct s_line
@@ -48,6 +57,8 @@ typedef struct s_mlx
 void	free_memory(char **arr);
 void	ft_free_map(t_map *map);
 void	ft_print_map(t_map *map);
+int		find_min(int num1, int num2);
+int		calculate_step(t_line *line, int window_width, int window_height, t_map *map);
 //-------------
 
 //---PARSING---
@@ -55,4 +66,9 @@ int count_new_lines(int fd);
 int *convert_line_to_int_arr(char *str, int *length);
 int read_map(int fd, t_map *map, char *file_name);
 
-#endif
+//---DRAWING---
+void		isometric_transform(int *x, int *y, int origin_x, int origin_y);
+void		draw_line(t_mlx *mlx, t_line *line, int color);
+void		draw_plane(t_mlx *mlx, t_line *line, t_map *map, int color, int step);
+
+#endif // FDF_H

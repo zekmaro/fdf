@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:27:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/27 14:27:52 by anarama          ###   ########.fr       */
+/*   Updated: 2024/05/29 18:33:47 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,3 +56,24 @@ void ft_print_map(t_map *map)
         i++;
     }
 }
+
+int ft_min(const int num1, const int num2)
+{
+	if (num1 < num2)
+		return (num1);
+	return (num2);
+}
+
+int	ft_max(const int num1, const int num2)
+{
+	if (num1 < num2)
+		return (num2);
+	return (num1);
+}
+
+int	calculate_step(t_line *line, int window_width, int window_height, t_map *map)
+ {
+	const int len1 = (window_width - line->x0) / 2;
+	const int len2 = (window_height - line->y0) / 2;
+	return (ft_max(ft_min(len1 / map->length, len2 / map->width), 3));
+ }

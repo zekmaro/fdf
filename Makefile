@@ -8,7 +8,7 @@ SRC		:=	fdf.c \
 			drawing.c 
 CFLAGS	:= -Wall -Wextra -Werror -g
 LIBS	:= libft/libft.a ft_printf/libftprintf.a
-OBJ		:= $(SRC:%.c=%.o)
+OBJ		:= $(SRC:.c=.o)
 
 all		: $(NAME)
 

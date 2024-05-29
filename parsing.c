@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:26:36 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/27 14:35:53 by anarama          ###   ########.fr       */
+/*   Updated: 2024/05/29 17:35:15 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int read_map(int fd, t_map *map, char *file_name)
     if (fd < 0 || map->width <= 0)
 		return (0);
     map->grid = (int **)malloc(sizeof(int *) * map->width);
-    if (!map->grid)
+	map->colors = (int **)malloc(sizeof(int *) * map->width);
+    if (!map->grid || !map->colors)
     	return (close(fd), 0);
     save_length = 0;
     i = 0;
