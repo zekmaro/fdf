@@ -12,7 +12,7 @@ OBJ		:= $(SRC:.c=.o)
 
 all		: $(NAME)
 
-$(NAME)	: $(OBJ)
+$(NAME)	: $(OBJ) fdf.h
 	make -C ft_printf all
 	make -C libft all
 	$(CC) $(OBJ) $(LIBS) -lmlx -lXext -lX11 -lm -o $(NAME)

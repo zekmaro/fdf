@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:27:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/29 18:33:47 by anarama          ###   ########.fr       */
+/*   Updated: 2024/05/30 13:33:14 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,19 @@ void ft_free_map(t_map *map)
     free(map->grid);
 }
 
+void ft_free_colors(t_map *map)
+{
+    int i;
+
+    i = 0;
+    while (i < map->width)
+    {
+        free(map->colors[i]);
+        i++;
+    }
+    free(map->colors);
+}
+
 void ft_print_map(t_map *map)
 {
     int i;
@@ -53,6 +66,25 @@ void ft_print_map(t_map *map)
             j++;
         }
         ft_printf("\n");
+        i++;
+    }
+}
+
+void print_colors(t_map *map)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (i < map->width)
+    {
+        j = 0;
+        while (j < map->length)
+        {
+            printf("%lu", map->colors[i][j]);
+            j++;
+        }
+        printf("\n");
         i++;
     }
 }
