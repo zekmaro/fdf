@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/30 19:49:58 by anarama          ###   ########.fr       */
+/*   Updated: 2024/05/31 15:35:34 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,12 @@ typedef struct s_mlx
     void *mlx;
     void *win;
 } t_mlx;
+
+typedef struct s_vars 
+{
+	t_mlx *mlx;
+	t_map *map;
+} t_vars;
 
 typedef struct s_line
 {
