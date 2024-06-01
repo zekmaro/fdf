@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:26:36 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/30 15:24:22 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:20:50 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ unsigned long hex_to_color(const char *hex)
         else
         {
             // Invalid character found, return default color
-            return hex_to_color(WHITE);
+            return hex_to_color("FFFFFF");
         }
         i++;
     }
@@ -97,7 +97,7 @@ unsigned long get_color(char *str)
     unsigned long color;
 
     temp = ft_split(str, ',');
-    color = hex_to_color(WHITE); // Default color (white)
+    color = hex_to_color("FFFFFF"); // Default color (white)
     if (temp[1] && check_valid_hex(temp[1]))
     {
         color = hex_to_color(temp[1]);

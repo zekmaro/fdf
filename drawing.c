@@ -6,19 +6,19 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:44:22 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/30 19:49:54 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:26:13 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void isometric_transform(int *x, int *y, int origin_x, int origin_y)
+void isometric_transform(int *x, int *y, int origin_x, int origin_y, int z)
 {
     const double angle = M_PI / 6;
     const int temp_x = *x - origin_x;
     const int temp_y = *y - origin_y;
     const int iso_x = temp_x * cos(angle) - temp_y * sin(angle);
-    const int iso_y = temp_x * sin(angle) + temp_y * cos(angle);
+    const int iso_y = temp_x * sin(angle) + temp_y * cos(angle) - z;
 
     *x = iso_x + origin_x;
     *y = iso_y + origin_y;
@@ -29,9 +29,9 @@ int	define_step(const int a, const int b)
 	if (a < b)
 		return 1;
 	else if (a > b)
-		return -1;
+		return (-1);
 	else
-		return 0;
+		return (0);
 }
 
 void draw_line(t_mlx *mlx, t_line *line, unsigned long color)
@@ -78,10 +78,12 @@ void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, int step)
 	int j;
 	int	src_x;
 	int src_y;
+	int z;
 	unsigned long default_color = 0xFFFFFF;
 	
 	src_x = line->x0;
 	src_y = line->y0;
+	z = 0;
 	i = 0;
 	while (i <= map->width)
 	{
@@ -90,16 +92,22 @@ void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, int step)
 		{
 			line->x1 = line->x0 + step;
 			line->y1 = line->y0;
-			isometric_transform(&(line->x1), &(line->y1), line->x0, line->y0);
+			if (j < map->length - 1 && i < map->width)
+				z = map->grid[i][j + 1] - map->grid[i][j];
+			isometric_transform(&(line->x1), &(line->y1), line->x0, line->y0, z);
 			save_x = line->x1;
 			save_y = line->y1;
+			if (j < map->length - 1 && i < map->width - 1 && map->colors[i][j] == default_color && (map->grid[i][j + 1] > 0 || map->grid[i + 1][j] > 0 || map->grid[i][j] > 0))
+				map->colors[i][j] = RED;
 			if (j < map->length && i < map->width)
 				draw_line(mlx, line, map->colors[i][j]);
 			else if (j < map->length && i == map->width)
 				draw_line(mlx, line, default_color);
 			line->x1 = line->x0;
 			line->y1 = line->y0 + step;
-			isometric_transform(&(line->x1), &(line->y1), line->x0, line->y0);
+			if (i < map->width - 1 && j < map->length)
+				z = map->grid[i + 1][j] - map->grid[i][j];
+			isometric_transform(&(line->x1), &(line->y1), line->x0, line->y0, z);
 			if (i < map->width && j < map->length)
 				draw_line(mlx, line, map->colors[i][j]);
 			else if (i < map->width && j == map->length)
@@ -112,13 +120,11 @@ void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, int step)
 		line->y0 = src_y;
 		line->x1 = line->x0;
 		line->y1 = line->y0 + step;
-		isometric_transform(&(line->x1), &(line->y1), line->x0, line->y0);
+		// if (i < map->width - 1 && j < map->length)
+		// 	z = map->grid[i + 1][j] - map->grid[i][j];
+		isometric_transform(&(line->x1), &(line->y1), line->x0, line->y0, 0);
 		src_x = line->x1;
 		src_y = line->y1;
-		if (i < map->width && j < map->length)
-			draw_line(mlx, line, map->colors[i][j]);
-		else if (i < map->width && j == map->length)
-			draw_line(mlx, line, default_color);
 		line->x0 = line->x1;
 		line->y0 = line->y1;
 		i++;

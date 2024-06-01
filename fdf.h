@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/31 15:35:34 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:28:21 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@
 # include <unistd.h>
 # include <mlx.h>
 # include <math.h>
-#include <signal.h>
 
 // KEY DEFINITION
-# define KEY_ESC 53
 # define KEY_PLUS 24
 # define KEY_MINUS 27
 # define KEY_LEFT 123
@@ -35,8 +33,8 @@
 # define ESCAPE 65307
 
 // COLORS
-# define WHITE "FFFFFF"
-# define RED "FF0000"
+# define WHITE 0xFFFFFF
+# define RED 0xFF0000
 
 typedef struct s_map
 {
@@ -80,7 +78,6 @@ int *convert_line_to_int_arr(char *str, t_map *map, int index);
 int read_map(int fd, t_map *map, char *file_name);
 
 //---DRAWING---
-void	isometric_transform(int *x, int *y, int origin_x, int origin_y);
 void	draw_line(t_mlx *mlx, t_line *line, unsigned long color);
 void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, int step);
 
