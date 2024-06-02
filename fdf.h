@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/01 19:28:21 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/02 18:04:46 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,28 @@
 
 typedef struct s_map
 {
-	int 		**grid;
-	int 		width;
-	int 		length;
-	unsigned long **colors;
+	int 			**grid;
+	unsigned long	**colors;
+	int 			width;
+	int 			length;
+	int				max_height;
+	int				min_height;
+	int				step;
 } t_map;
+
+typedef struct s_color
+{
+	unsigned long color;
+	int red;
+	int green;
+	int blue;
+} t_color;
+
+typedef struct s_colors
+{
+	t_color *white;
+	t_color *red;
+} t_colors;
 
 typedef struct s_mlx
 {
@@ -79,6 +96,12 @@ int read_map(int fd, t_map *map, char *file_name);
 
 //---DRAWING---
 void	draw_line(t_mlx *mlx, t_line *line, unsigned long color);
-void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, int step);
+void	draw_plane(t_mlx *mlx, t_line *line, t_map *map);
+
+//----COLORS-----
+void	initialise_rgb(t_color *color);
+int		get_red(unsigned long color);
+int		get_green(unsigned long color);
+int		get_blue(unsigned long color);
 
 #endif // FDF_H

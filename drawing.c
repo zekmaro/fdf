@@ -6,22 +6,19 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:44:22 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/01 19:26:13 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/02 18:03:18 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void isometric_transform(int *x, int *y, int origin_x, int origin_y, int z)
+void isometric_transform(int *x, int *y, int z)
 {
     const double angle = M_PI / 6;
-    const int temp_x = *x - origin_x;
-    const int temp_y = *y - origin_y;
-    const int iso_x = temp_x * cos(angle) - temp_y * sin(angle);
-    const int iso_y = temp_x * sin(angle) + temp_y * cos(angle) - z;
-
-    *x = iso_x + origin_x;
-    *y = iso_y + origin_y;
+   	int temp_x = *x;
+    int temp_y = *y;
+	*x = (temp_x - temp_y) * cos(angle) + 1000;
+	*y = (temp_x + temp_y) * sin(angle) - z + 300;
 }
 
 int	define_step(const int a, const int b)
@@ -34,6 +31,56 @@ int	define_step(const int a, const int b)
 		return (0);
 }
 
+int get_red(unsigned long color) 
+{
+    return ((color >> 16) & 0xFF);
+}
+
+int get_green(unsigned long color) 
+{
+    return ((color >> 8) & 0xFF);
+}
+
+int get_blue(unsigned long color) 
+{
+    return (color & 0xFF);
+}
+
+void	initialise_rgb(t_color *color)
+{
+	color->red = get_red(color->color);
+	color->green = get_green(color->color);
+	color->blue = get_blue(color->color);
+}
+
+int	interpolate(int start_component, int end_component, t_map *map, int height)
+{
+	int result;
+	const int dh = map->max_height - map->min_height;
+	const int d_rgb = end_component - start_component;
+	result = start_component + d_rgb * (height - map->min_height) / dh;
+	return (result);
+}
+
+unsigned long	combine_rgb(int red, int green, int blue)
+{
+	return ((red << 16) | (green << 8) | blue);
+}
+
+unsigned long	calculate_gradient(t_color *color_start, t_color *color_end, t_map *map, int height)
+{
+	unsigned long result;
+	int result_red;
+	int result_green;
+	int result_blue;
+
+	result_red = interpolate(color_start->red, color_end->red, map, height);
+	result_green = interpolate(color_start->green, color_end->green, map, height);
+	result_blue = interpolate(color_start->blue, color_end->blue, map, height);
+	result = combine_rgb(result_red, result_green, result_blue);
+	return (result);
+}
+
 void draw_line(t_mlx *mlx, t_line *line, unsigned long color)
 {
 	const int step_x = define_step(line->x0, line->x1);
@@ -41,92 +88,69 @@ void draw_line(t_mlx *mlx, t_line *line, unsigned long color)
 	const int dx = abs(line->x1 - line->x0);
 	const int dy = abs(line->y1 - line->y0);
 	int error;
-	int x1;
-	int y1;
-
+	int x0;
+	int y0;
+	
 	error = 0;
-	x1 = line->x0;
-	y1 = line->y0;
+	x0 = line->x0;
+	y0 = line->y0;
 	while (1)
 	{
-		mlx_pixel_put(mlx->mlx, mlx->win, x1, y1 , color);
-		if (x1 == line->x1 && y1 == line->y1)
+		mlx_pixel_put(mlx->mlx, mlx->win, x0, y0, color);
+		if (x0 == line->x1 && y0 == line->y1)
 			break ;
-		error = abs(x1 - line->x0) * dy - abs(y1 - line->y0) * dx;
+		error = abs(x0 - line->x0) * dy - abs(y0 - line->y0) * dx;
 		if (step_x && !error)
 		{
-			x1 += step_x;
+			x0 += step_x;
 		}
 		else if (step_y && !error)
 		{
-			y1 += step_y;
+			y0 += step_y;
 		}
 		else if (error < 0)
 		{
-			x1 += step_x;
+			x0 += step_x;
 		}
 		else if (error > 0)
-			y1 += step_y;
+			y0 += step_y;
 	}
 }
 
-void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, int step)
+void	draw_plane(t_mlx *mlx, t_line *line, t_map *map)
 {
-	int save_x;
-	int save_y;
 	int i;
 	int j;
-	int	src_x;
-	int src_y;
-	int z;
-	unsigned long default_color = 0xFFFFFF;
 	
-	src_x = line->x0;
-	src_y = line->y0;
-	z = 0;
 	i = 0;
-	while (i <= map->width)
+	while (i < map->width)
 	{
 		j = 0;
-		while (j <= map->length)
+		while (j < map->length)
 		{
-			line->x1 = line->x0 + step;
-			line->y1 = line->y0;
-			if (j < map->length - 1 && i < map->width)
-				z = map->grid[i][j + 1] - map->grid[i][j];
-			isometric_transform(&(line->x1), &(line->y1), line->x0, line->y0, z);
-			save_x = line->x1;
-			save_y = line->y1;
-			if (j < map->length - 1 && i < map->width - 1 && map->colors[i][j] == default_color && (map->grid[i][j + 1] > 0 || map->grid[i + 1][j] > 0 || map->grid[i][j] > 0))
-				map->colors[i][j] = RED;
-			if (j < map->length && i < map->width)
+			if (j < map->length - 1)
+			{
+				line->x0 = j * map->step;
+				line->y0 = i * map->step;
+				line->x1 = (j + 1) * map->step;
+				line->y1 = i * map->step;
+				isometric_transform(&(line->x0), &(line->y0) , map->grid[i][j]);
+				isometric_transform(&(line->x1), &(line->y1) , map->grid[i][j + 1]);
 				draw_line(mlx, line, map->colors[i][j]);
-			else if (j < map->length && i == map->width)
-				draw_line(mlx, line, default_color);
-			line->x1 = line->x0;
-			line->y1 = line->y0 + step;
-			if (i < map->width - 1 && j < map->length)
-				z = map->grid[i + 1][j] - map->grid[i][j];
-			isometric_transform(&(line->x1), &(line->y1), line->x0, line->y0, z);
-			if (i < map->width && j < map->length)
+			}
+			if (i < map->width - 1)
+			{
+				line->x0 = j * map->step;
+				line->y0 = i * map->step;
+				line->x1 = j * map->step;
+				line->y1 = (i + 1) * map->step;
+				isometric_transform(&(line->x0), &(line->y0) , map->grid[i][j]);
+				isometric_transform(&(line->x1), &(line->y1) , map->grid[i + 1][j]);
 				draw_line(mlx, line, map->colors[i][j]);
-			else if (i < map->width && j == map->length)
-				draw_line(mlx, line, default_color);
-			line->x0 = save_x;
-			line->y0 = save_y;
+			}
 			j++;
 		}
-		line->x0 = src_x;
-		line->y0 = src_y;
-		line->x1 = line->x0;
-		line->y1 = line->y0 + step;
-		// if (i < map->width - 1 && j < map->length)
-		// 	z = map->grid[i + 1][j] - map->grid[i][j];
-		isometric_transform(&(line->x1), &(line->y1), line->x0, line->y0, 0);
-		src_x = line->x1;
-		src_y = line->y1;
-		line->x0 = line->x1;
-		line->y0 = line->y1;
 		i++;
 	}
 }
+ 
