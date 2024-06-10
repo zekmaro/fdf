@@ -6,12 +6,11 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/02 18:06:20 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/10 17:05:58 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "libft/libft.h"
 
 int key_hook(int keycode, t_vars *vars)
 {
@@ -112,10 +111,14 @@ int main(int argc, char **argv)
 	red.color = RED;
 	colors.white = &white;
 	colors.red = &red;
+	
 	initialise_rgb(&white);
 	initialise_rgb(&red);
+
 	get_max_height(&map);
 	get_min_height(&map);
+
+	ft_printf("max %d and min %d\n", map.max_height, map.min_height);
 	vars.map = &map;
 	vars.mlx = &mlx;
 	line.x0 = 800;
@@ -126,7 +129,7 @@ int main(int argc, char **argv)
 	map.step = calculate_step(&line, window_width, window_height, &map);	
     mlx.mlx = mlx_init();
     mlx.win = mlx_new_window(mlx.mlx, window_width, window_height, "Draw Grid");
-	draw_plane(&mlx, &line, &map);
+	draw_plane(&mlx, &line, &map, &colors);
 	mlx_key_hook(mlx.win, key_hook, &vars);
     mlx_loop(mlx.mlx);
     return (0);

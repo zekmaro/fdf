@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/02 18:04:46 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/10 16:29:56 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,7 @@ int *convert_line_to_int_arr(char *str, t_map *map, int index);
 int read_map(int fd, t_map *map, char *file_name);
 
 //---DRAWING---
-void	draw_line(t_mlx *mlx, t_line *line, unsigned long color);
-void	draw_plane(t_mlx *mlx, t_line *line, t_map *map);
+void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, t_colors *colors);
 
 //----COLORS-----
 void	initialise_rgb(t_color *color);

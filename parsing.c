@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:26:36 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/01 19:20:50 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/10 13:38:15 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,16 +164,16 @@ int read_map(int fd, t_map *map, char *file_name)
     {
         line = get_next_line(fd);
         if (!line)
-            return (close(fd), 0);
+            return (close(fd), get_next_line(-1), 0);
         map->grid[i] = convert_line_to_int_arr(line, map, i);
         free(line);
         if (map->grid[i] == NULL)
-            return (close(fd), 0);
+            return (close(fd), get_next_line(-1), 0);
         if (i == 0)
             save_length = map->length;
         else if (i != 0 && (save_length != map->length))
-            return (close(fd), 0);
+            return (close(fd), get_next_line(-1), 0);
         i++;
     }
-	return (close(fd), 1);
+	return (close(fd), get_next_line(-1), 1);
 }

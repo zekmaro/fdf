@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:14:30 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/23 21:21:20 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/10 13:36:57 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*get_next_line(int fd)
 	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
+		return (free(leftovers), leftovers = NULL, NULL);
 	while (ft_strchr_gnl(leftovers, '\n') == NULL)
 	{
 		buffer = (char *)ft_calloc_gnl(BUFFER_SIZE + 1, 1);
