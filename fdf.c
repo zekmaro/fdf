@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/10 17:05:58 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/11 12:38:07 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int main(int argc, char **argv)
 	get_max_height(&map);
 	get_min_height(&map);
 
-	ft_printf("max %d and min %d\n", map.max_height, map.min_height);
 	vars.map = &map;
 	vars.mlx = &mlx;
 	line.x0 = 800;
