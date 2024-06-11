@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:44:22 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/11 15:57:57 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/11 20:14:14 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,19 @@ void draw_line(t_mlx *mlx, t_line *line, t_colors *colors, t_map *map, unsigned 
 	int x0;
 	int y0;
 
-	int i;
-	i = 5;
+	int i = 0;
+	if (dh < 0)
+		dh = -1;
+	else if (dh > 0)
+		dh = 1;
+	else
+		dh = 0;
 	error = 0;
 	x0 = line->x0;
 	y0 = line->y0;
 	while (1)
 	{
-		if (i % 5 == 0 && dh)
+		if (i % 6 == 0 && dh)
 			height += dh;
 		color = calculate_gradient(colors->white, colors->red, map, height);
 		mlx_pixel_put(mlx->mlx, mlx->win, x0, y0, color);
@@ -144,12 +149,6 @@ void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, t_colors *colors)
 				isometric_transform(&(line->x0), &(line->y0) , map->grid[i][j]);
 				isometric_transform(&(line->x1), &(line->y1) , map->grid[i][j + 1]);
 				dh = map->grid[i][j + 1] - map->grid[i][j];
-				if (dh < 0)
-					dh = -1;
-				else if (dh > 0)
-					dh = 1;
-				else
-					dh = 0;
 				draw_line(mlx, line, colors, map, map->colors[i][j], map->grid[i][j], dh);
 			}
 			if (i < map->width - 1)
@@ -161,12 +160,6 @@ void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, t_colors *colors)
 				isometric_transform(&(line->x0), &(line->y0) , map->grid[i][j]);
 				isometric_transform(&(line->x1), &(line->y1) , map->grid[i + 1][j]);
 				dh = map->grid[i + 1][j] - map->grid[i][j];
-				if (dh < 0)
-					dh = -1;
-				else if (dh > 0)
-					dh = 1;
-				else
-					dh = 0;
 				draw_line(mlx, line, colors, map, map->colors[i][j], map->grid[i][j], dh);
 			}
 			j++;

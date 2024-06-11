@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/10 16:29:56 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/11 18:53:40 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 // COLORS
 # define WHITE 0xFFFFFF
 # define RED 0xFF0000
+# define PURPLE 0x800080
 
 typedef struct s_map
 {
