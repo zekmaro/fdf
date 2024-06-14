@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/11 18:53:40 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/14 14:26:20 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@
 // KEY DEFINITION
 # define KEY_PLUS 24
 # define KEY_MINUS 27
-# define KEY_LEFT 123
-# define KEY_RIGHT 124
-# define KEY_UP 126
-# define KEY_DOWN 125
+# define W 119
+# define D 100
+# define S 115
+# define A 97
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
+# define KEY_UP 65362
+# define KEY_DOWN 65364
 # define ESCAPE 65307
 
 // COLORS
@@ -47,6 +51,15 @@ typedef struct s_map
 	int				min_height;
 	int				step;
 } t_map;
+
+typedef struct s_img
+{
+    void	*mlx_img;
+    char	*addr;
+    int		bits_per_pixel;
+    int		line_len;
+    int		endian;
+}	t_img;
 
 typedef struct s_color
 {
@@ -96,7 +109,7 @@ int *convert_line_to_int_arr(char *str, t_map *map, int index);
 int read_map(int fd, t_map *map, char *file_name);
 
 //---DRAWING---
-void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, t_colors *colors);
+void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors);
 
 //----COLORS-----
 void	initialise_rgb(t_color *color);

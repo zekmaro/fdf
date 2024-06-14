@@ -6,27 +6,34 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/11 18:54:39 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/14 14:42:26 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	free_and_exit(t_vars *vars)
+{
+	mlx_destroy_window(vars->mlx->mlx, vars->mlx->win);
+	mlx_destroy_display(vars->mlx->mlx);
+	// mlx_destroy_image(void *mlx_ptr, void *img_ptr);
+	free(vars->mlx->mlx);
+	ft_free_map(vars->map);
+	ft_free_colors(vars->map);
+	exit(0);
+}
+
 int key_hook(int keycode, t_vars *vars)
 {
-    if (keycode == ESCAPE)
+	if (keycode == ESCAPE)
     {
         printf("Exiting program.\n");
-        if (vars->mlx->win)
-		{
-			mlx_destroy_window(vars->mlx->mlx, vars->mlx->win);
-			mlx_destroy_display(vars->mlx->mlx);
-			free(vars->mlx->mlx);
-		}
-		ft_free_map(vars->map);
-		ft_free_colors(vars->map);
-		exit(0);
+		free_and_exit(vars);
     }
+	else if (keycode == KEY_RIGHT)
+	{
+		printf("Movind right.\n");
+	}
 	return (0);
 }
 
@@ -79,10 +86,12 @@ int main(int argc, char **argv)
 	t_color white;
 	t_color red;
 	t_colors colors;
+	t_img image;
 
 	int fd;
 	int window_width;
 	int	window_height;
+	
     if (argc != 2)
     {
         perror("Usage: ./fdf <filename>\n");
@@ -94,12 +103,15 @@ int main(int argc, char **argv)
         perror("Invalid file descriptor!\n");
         exit(EXIT_FAILURE);
     }
+	
 	ft_bzero(&mlx, sizeof(t_mlx));
 	ft_bzero(&line, sizeof(t_line));
 	ft_bzero(&vars, sizeof(t_vars));
 	ft_bzero(&white, sizeof(t_color));
 	ft_bzero(&red, sizeof(t_color));
 	ft_bzero(&colors, sizeof(t_colors));
+	ft_bzero(&image, sizeof(t_img));
+	
     if (!read_map(fd, &map, argv[1]))
 	{
 		ft_free_map(&map);
@@ -107,6 +119,7 @@ int main(int argc, char **argv)
         perror("Error reading line!\n");
         exit(EXIT_FAILURE);
 	}
+	
 	white.color = WHITE;
 	red.color = RED;
 	colors.white = &white;
@@ -128,7 +141,13 @@ int main(int argc, char **argv)
 	map.step = calculate_step(&line, window_width, window_height, &map);	
     mlx.mlx = mlx_init();
     mlx.win = mlx_new_window(mlx.mlx, window_width, window_height, "Draw Grid");
-	draw_plane(&mlx, &line, &map, &colors);
+
+	image.mlx_img = mlx_new_image(mlx.mlx, window_width, window_height);
+	image.addr = mlx_get_data_addr(image.mlx_img, &(image.bits_per_pixel), &(image.line_len), &(image.endian));
+
+	draw_plane(&image, &line, &map, &colors);
+
+	mlx_put_image_to_window(mlx.mlx, mlx.win, image.mlx_img, 0, 0);
 	mlx_key_hook(mlx.win, key_hook, &vars);
     mlx_loop(mlx.mlx);
     return (0);

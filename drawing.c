@@ -6,12 +6,21 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:44:22 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/12 18:19:59 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/14 14:27:44 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "ft_printf/ft_printf.h"
+
+void put_pixel_to_image(t_img *image, int x, int y, int color)
+{
+    int index;
+
+    index = (x * (image->bits_per_pixel / 8)) + (y * (image->line_len));
+    (image->addr)[index] = color & 0xFF;
+    (image->addr)[index + 1] = (color >> 8) & 0xFF;
+    (image->addr)[index + 2] = (color >> 16) & 0xFF;
+}
 
 void isometric_transform(int *x, int *y, int z)
 {
@@ -82,7 +91,7 @@ unsigned long	calculate_gradient(t_color *color_start, t_color *color_end, t_map
 	return (result);
 }
 
-void draw_line(t_mlx *mlx, t_line *line, unsigned long color)
+void draw_line(t_img *image, t_line *line, unsigned long color)
 {
 	const int step_x = define_step(line->x0, line->x1);
 	const int step_y = define_step(line->y0, line->y1);
@@ -98,7 +107,7 @@ void draw_line(t_mlx *mlx, t_line *line, unsigned long color)
 	y0 = line->y0;
 	while (1)
 	{
-		mlx_pixel_put(mlx->mlx, mlx->win, x0, y0, color);
+		put_pixel_to_image(image, x0, y0, color);
 		if (x0 == line->x1 && y0 == line->y1)
 			break ;
 		error = abs(x0 - line->x0) * dy - abs(y0 - line->y0) * dx;
@@ -120,7 +129,7 @@ void draw_line(t_mlx *mlx, t_line *line, unsigned long color)
 	}
 }
 
-void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, t_colors *colors)
+void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors)
 {
 	int i;
 	int j;
@@ -142,7 +151,7 @@ void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, t_colors *colors)
 				isometric_transform(&(line->x0), &(line->y0) , map->grid[i][j]);
 				isometric_transform(&(line->x1), &(line->y1) , map->grid[i][j + 1]);
 				dh = map->grid[i][j + 1] - map->grid[i][j];
-				draw_line(mlx, line, map->colors[i][j]);
+				draw_line(image, line, map->colors[i][j]);
 			}
 			if (i < map->width - 1)
 			{
@@ -153,7 +162,7 @@ void	draw_plane(t_mlx *mlx, t_line *line, t_map *map, t_colors *colors)
 				isometric_transform(&(line->x0), &(line->y0) , map->grid[i][j]);
 				isometric_transform(&(line->x1), &(line->y1) , map->grid[i + 1][j]);
 				dh = map->grid[i + 1][j] - map->grid[i][j];
-				draw_line(mlx, line, map->colors[i][j]);
+				draw_line(image, line, map->colors[i][j]);
 			}
 			j++;
 		}
