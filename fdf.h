@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/14 14:26:20 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/15 16:04:16 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <math.h>
 
 // KEY DEFINITION
-# define KEY_PLUS 24
-# define KEY_MINUS 27
+# define KEY_PLUS 65451 //scale up
+# define KEY_MINUS 65453 //scale down
 # define W 119
 # define D 100
 # define S 115
@@ -40,6 +40,7 @@
 # define WHITE 0xFFFFFF
 # define RED 0xFF0000
 # define PURPLE 0x800080
+# define BLACK 0x000000
 
 typedef struct s_map
 {
@@ -79,19 +80,26 @@ typedef struct s_mlx
 {
     void *mlx;
     void *win;
+	int window_width;
+	int	window_height;
 } t_mlx;
-
-typedef struct s_vars 
-{
-	t_mlx *mlx;
-	t_map *map;
-} t_vars;
 
 typedef struct s_line
 {
     int x0, y0;
     int x1, y1;
+	int src_x;
+	int src_y;
 } t_line;
+
+typedef struct s_vars 
+{
+	t_mlx *mlx;
+	t_map *map;
+	t_img *image;
+	t_line *line;
+	t_colors *colors;
+} t_vars;
 
 //----UTILS----
 void	free_memory(char **arr);
@@ -110,6 +118,7 @@ int read_map(int fd, t_map *map, char *file_name);
 
 //---DRAWING---
 void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors);
+void	put_pixel_to_image(t_img *image, int x, int y, int color);
 
 //----COLORS-----
 void	initialise_rgb(t_color *color);

@@ -6,17 +6,36 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/14 14:42:26 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/15 16:14:34 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	clean_screen(t_vars *vars)
+{
+	int x;
+	int y;
+
+	y = 0;	
+	while (y != vars->mlx->window_height)
+	{
+		x = 0;
+		while (x != vars->mlx->window_width)
+		{
+			put_pixel_to_image(vars->image, x, y, BLACK);
+			x++;
+		}
+		y++;
+	}
+	ft_printf("im done\n");
+}
+
 void	free_and_exit(t_vars *vars)
 {
 	mlx_destroy_window(vars->mlx->mlx, vars->mlx->win);
 	mlx_destroy_display(vars->mlx->mlx);
-	// mlx_destroy_image(void *mlx_ptr, void *img_ptr);
+	//mlx_destroy_image(vars->mlx->mlx, vars->image->addr);
 	free(vars->mlx->mlx);
 	ft_free_map(vars->map);
 	ft_free_colors(vars->map);
@@ -27,12 +46,56 @@ int key_hook(int keycode, t_vars *vars)
 {
 	if (keycode == ESCAPE)
     {
-        printf("Exiting program.\n");
+        ft_printf("Exiting program.\n");
 		free_and_exit(vars);
     }
 	else if (keycode == KEY_RIGHT)
 	{
-		printf("Movind right.\n");
+		ft_printf("Movind right.\n");
+		clean_screen(vars);
+		mlx_put_image_to_window(vars->mlx->mlx, vars->mlx->win, vars->image->mlx_img, 0, 0);
+		vars->line->src_x += 20;
+		draw_plane(vars->image, vars->line, vars->map, vars->colors);
+	}
+	else if (keycode == KEY_LEFT)
+	{
+		ft_printf("Movind left.\n");
+		clean_screen(vars);
+		mlx_put_image_to_window(vars->mlx->mlx, vars->mlx->win, vars->image->mlx_img, 0, 0);
+		vars->line->src_x -= 20;
+		draw_plane(vars->image, vars->line, vars->map, vars->colors);
+	}
+	else if (keycode == KEY_UP)
+	{
+		ft_printf("Movind right.\n");
+		clean_screen(vars);
+		mlx_put_image_to_window(vars->mlx->mlx, vars->mlx->win, vars->image->mlx_img, 0, 0);
+		vars->line->src_y -= 20;
+		draw_plane(vars->image, vars->line, vars->map, vars->colors);
+	}
+	else if (keycode == KEY_DOWN)
+	{
+		ft_printf("Movind left.\n");
+		clean_screen(vars);
+		mlx_put_image_to_window(vars->mlx->mlx, vars->mlx->win, vars->image->mlx_img, 0, 0);
+		vars->line->src_y += 20;
+		draw_plane(vars->image, vars->line, vars->map, vars->colors);
+	}
+	else if (keycode == KEY_PLUS)
+	{
+		ft_printf("Scaling up.\n");
+		clean_screen(vars);
+		mlx_put_image_to_window(vars->mlx->mlx, vars->mlx->win, vars->image->mlx_img, 0, 0);
+		vars->map->step += 1;
+		draw_plane(vars->image, vars->line, vars->map, vars->colors);
+	}
+	else if (keycode == KEY_MINUS)
+	{
+		ft_printf("Scaling down.\n");
+		clean_screen(vars);
+		mlx_put_image_to_window(vars->mlx->mlx, vars->mlx->win, vars->image->mlx_img, 0, 0);
+		vars->map->step -= 1;
+		draw_plane(vars->image, vars->line, vars->map, vars->colors);
 	}
 	return (0);
 }
@@ -89,17 +152,12 @@ int main(int argc, char **argv)
 	t_img image;
 
 	int fd;
-	int window_width;
-	int	window_height;
 	
     if (argc != 2)
     {
         perror("Usage: ./fdf <filename>\n");
         exit(EXIT_FAILURE);
-    }
-    fd = open(argv[1], O_RDONLY);
-    if (fd < 0)
-    {
+    }#include "ft_printf/ft_printf.h"
         perror("Invalid file descriptor!\n");
         exit(EXIT_FAILURE);
     }
@@ -133,31 +191,38 @@ int main(int argc, char **argv)
 
 	vars.map = &map;
 	vars.mlx = &mlx;
-	line.x0 = 800;
-	line.y0 = 100;
-	window_height = 1080;
-	window_width = 1920;
+	vars.line = &line;
+	vars.colors = &colors;
+	
+	line.src_x = 1000;
+	line.src_y = 300;
+	
+	mlx.window_height = 1080;
+	mlx.window_width = 1920;
 
-	map.step = calculate_step(&line, window_width, window_height, &map);	
+	map.step = calculate_step(&line, mlx.window_width, mlx.window_height, &map); // can just pass &mlx
+	
     mlx.mlx = mlx_init();
-    mlx.win = mlx_new_window(mlx.mlx, window_width, window_height, "Draw Grid");
+    mlx.win = mlx_new_window(mlx.mlx, mlx.window_width, mlx.window_height, "Draw Grid");
 
-	image.mlx_img = mlx_new_image(mlx.mlx, window_width, window_height);
+	image.mlx_img = mlx_new_image(mlx.mlx, mlx.window_width, mlx.window_height);
 	image.addr = mlx_get_data_addr(image.mlx_img, &(image.bits_per_pixel), &(image.line_len), &(image.endian));
-
+	
+	vars.image = &image;
+	
 	draw_plane(&image, &line, &map, &colors);
 
 	mlx_put_image_to_window(mlx.mlx, mlx.win, image.mlx_img, 0, 0);
 	mlx_key_hook(mlx.win, key_hook, &vars);
+	//mlx_hook(mlx.win, 17, 0, free_and_exit(&vars), &vars);
     mlx_loop(mlx.mlx);
     return (0);
 }
 
-// Leaking one byte probably because of GNL somewhere
-// DRAW LINE 
-// DRAW PLANE 
-// How to calculate step? done but later do hot keys on zooming and movind
-// ADD COLORS done
-// DRAW PLANE WITH COLORS done
-// BUTTON FOR EXIT
-// DRAW PLANE WITH HEIGHTS
+
+// calculate the center
+// Refactor all the code and make it structure + nice
+// Get rid of all leaks
+
+// After we can start with rotations 
+// And in the end do the gradient
