@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/15 16:14:34 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/16 16:54:04 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,17 +151,20 @@ int main(int argc, char **argv)
 	t_colors colors;
 	t_img image;
 
-	int fd;
+	int fd = 0;
 	
     if (argc != 2)
     {
         perror("Usage: ./fdf <filename>\n");
         exit(EXIT_FAILURE);
-    }#include "ft_printf/ft_printf.h"
+    }
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+	{
         perror("Invalid file descriptor!\n");
         exit(EXIT_FAILURE);
-    }
-	
+	}
+
 	ft_bzero(&mlx, sizeof(t_mlx));
 	ft_bzero(&line, sizeof(t_line));
 	ft_bzero(&vars, sizeof(t_vars));
