@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/28 14:36:24 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/28 14:52:47 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,7 @@ int main(int argc, char **argv)
     return (0);
 }
 
-// Need to implement double pointers
-// Before duing rotations i need to refactor the code. its impossible to work with
-// Get rid of all leaks
-
-// After we can start with rotations 
-// And in the end do the gradient
+// REFACTOR THE CODE + FILE STRUCTURE (DONE (only left the white/red colors intialisation))
+// GET RID OF LEAKS ( :) )
+// IMPLEMENT ROTATIONS (CURRENT FOCUS)
+// DO GRADIENT
