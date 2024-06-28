@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/28 12:33:59 by andrejarama      ###   ########.fr       */
+/*   Updated: 2024/06/28 14:33:26 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,30 @@
 # include <math.h>
 
 // KEY DEFINITION LINUX
-// # define KEY_PLUS 65451 //scale up
-// # define KEY_MINUS 65453 //scale down
-// # define W 119
-// # define D 100
-// # define S 115
-// # define A 97
-// # define KEY_LEFT 65361
-// # define KEY_RIGHT 65363
-// # define KEY_UP 65362
-// # define KEY_DOWN 65364
-// # define ESCAPE 65307
+# define KEY_PLUS 65451 //scale up
+# define KEY_MINUS 65453 //scale down
+# define W 119
+# define D 100
+# define S 115
+# define A 97
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
+# define KEY_UP 65362
+# define KEY_DOWN 65364
+# define ESCAPE 65307
 
 // KEY DEFINITIONS MAC
-# define KEY_PLUS 30 //scale up
-# define KEY_MINUS 44 //scale down
-# define W 13
-# define D 2
-# define S 1
-# define A 0
-# define KEY_LEFT 123
-# define KEY_RIGHT 124
-# define KEY_UP 126
-# define KEY_DOWN 125
-# define ESCAPE 53
+// # define KEY_PLUS 30 //scale up
+// # define KEY_MINUS 44 //scale down
+// # define W 13
+// # define D 2
+// # define S 1
+// # define A 0
+// # define KEY_LEFT 123
+// # define KEY_RIGHT 124
+// # define KEY_UP 126
+// # define KEY_DOWN 125
+// # define ESCAPE 53
 
 // COLORS
 # define WHITE 0xFFFFFF
@@ -120,35 +120,61 @@ typedef struct s_vars
 // for makefile compilation from linux: -lmlx -lXext -lX11 -lm -o
 // for mac: -framework OpenGL -framework AppKit -o
 
-//----UTILS----
-void	free_memory(char **arr);
-void	ft_free_map(t_map *map);
-void	ft_print_map(t_map *map);
-int		find_min(int num1, int num2);
-void	ft_free_colors(t_map *map);
-void	print_colors(t_map *map);
-int		calculate_step(t_vars *vars);
+//----DRAWING----
+void	clean_screen(t_vars *vars);
+int		define_step(const int a, const int b);
+void 	draw_line(t_img *image, t_line *line, unsigned long color);
+void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors);
 //-------------
 
-//---PARSING---
-int count_new_lines(int fd);
-int *convert_line_to_int_arr(char *str, t_map *map, int index);
-int read_map(int fd, t_map *map, char *file_name);
+//---GRADIENT---
+void			put_pixel_to_image(t_img *image, int x, int y, int color);
+int				get_red(unsigned long color);
+int				get_green(unsigned long color);
+int 			get_blue(unsigned long color);
+void			initialise_rgb(t_color *color);
+int				interpolate(int start_component, int end_component, t_map *map, int height);
+unsigned long	combine_rgb(int red, int green, int blue);
+unsigned long	calculate_gradient(t_color *color_start, t_color *color_end, t_map *map, int height);
+//-------------
 
-//---DRAWING---
-void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors);
-void	put_pixel_to_image(t_img *image, int x, int y, int color);
+//---INITIALISATION---
+void	initialise_vars(t_vars *vars);
+//-------------
 
-//----COLORS-----
-void	initialise_rgb(t_color *color);
-int		get_red(unsigned long color);
-int		get_green(unsigned long color);
-int		get_blue(unsigned long color);
+//----MEMEMORY_FREEING---
+void	free_memory(char **arr);
+void 	ft_free_map(t_map *map);
+void 	ft_free_colors(t_map *map);
+void	cleanup_vars(t_vars *vars);
+void	free_and_exit(t_vars *vars);
+//-------------
 
-//----INITIALS-----
-void	initialise_colors(t_colors *colors);
-void	initialise_mlx(t_mlx *mlx);
-void	initialise_line(t_line *line);
-void	initialise_image(t_img *image, t_mlx *mlx);
+//----PARSING--
+int	read_map(int fd, t_map *map, char *file_name);
+//-------------
 
+//----PRINTING--
+void	ft_print_map(t_map *map);
+void 	print_colors(t_map *map);
+//-------------
+
+//----ROTATIONS--
+void	rotate_up(t_map *map);
+void	rotate_down(t_map *map);
+//-------------
+
+//----TRANSFORMATION--
+void	rotation_up_transform(int *x, int *y, int dx, int dy);
+void	isometric_transform(int *x, int *y, int z, t_line *line);
+//-------------
+
+//----UNTILS--
+int		ft_min(const int num1, const int num2);
+int		ft_max(const int num1, const int num2);
+int		calculate_step(t_vars *vars);
+void	calculate_center(t_map *map);
+void	get_max_height(t_map *map);
+void	get_min_height(t_map *map);
+//-------------
 #endif // FDF_H
