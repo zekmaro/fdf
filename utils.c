@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:27:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/05/30 13:33:14 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/23 00:50:23 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ int	ft_max(const int num1, const int num2)
 	return (num1);
 }
 
-int	calculate_step(t_line *line, int window_width, int window_height, t_map *map)
+int	calculate_step(t_vars *vars)
  {
-	const int len1 = (window_width - line->x0) / 2;
-	const int len2 = (window_height - line->y0) / 2;
-	return (ft_max(ft_min(len1 / map->length, len2 / map->width), 3));
+	const int len1 = (vars->mlx->window_width - vars->line->x0) / 2;
+	const int len2 = (vars->mlx->window_height - vars->line->y0) / 2;
+	return (ft_max(ft_min(len1 / vars->map->length, len2 / vars->map->width), 3));
  }

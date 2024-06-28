@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/15 16:04:16 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/28 12:33:59 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,34 @@
 # include "libft/libft.h"
 # include "ft_printf/ft_printf.h"
 # include <unistd.h>
-# include <mlx.h>
+# include "minilibx_macos/mlx.h"
 # include <math.h>
 
-// KEY DEFINITION
-# define KEY_PLUS 65451 //scale up
-# define KEY_MINUS 65453 //scale down
-# define W 119
-# define D 100
-# define S 115
-# define A 97
-# define KEY_LEFT 65361
-# define KEY_RIGHT 65363
-# define KEY_UP 65362
-# define KEY_DOWN 65364
-# define ESCAPE 65307
+// KEY DEFINITION LINUX
+// # define KEY_PLUS 65451 //scale up
+// # define KEY_MINUS 65453 //scale down
+// # define W 119
+// # define D 100
+// # define S 115
+// # define A 97
+// # define KEY_LEFT 65361
+// # define KEY_RIGHT 65363
+// # define KEY_UP 65362
+// # define KEY_DOWN 65364
+// # define ESCAPE 65307
+
+// KEY DEFINITIONS MAC
+# define KEY_PLUS 30 //scale up
+# define KEY_MINUS 44 //scale down
+# define W 13
+# define D 2
+# define S 1
+# define A 0
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_UP 126
+# define KEY_DOWN 125
+# define ESCAPE 53
 
 // COLORS
 # define WHITE 0xFFFFFF
@@ -51,6 +64,8 @@ typedef struct s_map
 	int				max_height;
 	int				min_height;
 	int				step;
+	int				center_x;
+	int				center_y;
 } t_map;
 
 typedef struct s_img
@@ -94,12 +109,16 @@ typedef struct s_line
 
 typedef struct s_vars 
 {
-	t_mlx *mlx;
 	t_map *map;
 	t_img *image;
-	t_line *line;
+	t_img *color;
 	t_colors *colors;
+	t_mlx *mlx;
+	t_line *line;
 } t_vars;
+
+// for makefile compilation from linux: -lmlx -lXext -lX11 -lm -o
+// for mac: -framework OpenGL -framework AppKit -o
 
 //----UTILS----
 void	free_memory(char **arr);
@@ -108,7 +127,7 @@ void	ft_print_map(t_map *map);
 int		find_min(int num1, int num2);
 void	ft_free_colors(t_map *map);
 void	print_colors(t_map *map);
-int		calculate_step(t_line *line, int window_width, int window_height, t_map *map);
+int		calculate_step(t_vars *vars);
 //-------------
 
 //---PARSING---
@@ -125,5 +144,11 @@ void	initialise_rgb(t_color *color);
 int		get_red(unsigned long color);
 int		get_green(unsigned long color);
 int		get_blue(unsigned long color);
+
+//----INITIALS-----
+void	initialise_colors(t_colors *colors);
+void	initialise_mlx(t_mlx *mlx);
+void	initialise_line(t_line *line);
+void	initialise_image(t_img *image, t_mlx *mlx);
 
 #endif // FDF_H

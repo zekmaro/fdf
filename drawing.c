@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:44:22 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/15 16:06:06 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/21 22:59:11 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void put_pixel_to_image(t_img *image, int x, int y, int color)
     (image->addr)[index] = color & 0xFF;
     (image->addr)[index + 1] = (color >> 8) & 0xFF;
     (image->addr)[index + 2] = (color >> 16) & 0xFF;
+}
+
+void rotation_up_transform(int *x, int *y, int dx, int dy)
+{
+	*x -= dx;
+	*y -= dy;
 }
 
 void isometric_transform(int *x, int *y, int z, t_line *line)
@@ -133,7 +139,7 @@ void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors)
 {
 	int i;
 	int j;
-	int dh;
+	//int dh;
 	
 	(void) colors;
 	i = 0;
@@ -150,7 +156,6 @@ void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors)
 				line->y1 = i * map->step;
 				isometric_transform(&(line->x0), &(line->y0) , map->grid[i][j], line);
 				isometric_transform(&(line->x1), &(line->y1) , map->grid[i][j + 1], line);
-				dh = map->grid[i][j + 1] - map->grid[i][j];
 				draw_line(image, line, map->colors[i][j]);
 			}
 			if (i < map->width - 1)
@@ -161,12 +166,13 @@ void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors)
 				line->y1 = (i + 1) * map->step;
 				isometric_transform(&(line->x0), &(line->y0) , map->grid[i][j], line);
 				isometric_transform(&(line->x1), &(line->y1) , map->grid[i + 1][j], line);
-				dh = map->grid[i + 1][j] - map->grid[i][j];
+				//dh = map->grid[i + 1][j] - map->grid[i][j];
 				draw_line(image, line, map->colors[i][j]);
 			}
 			j++;
 		}
 		i++;
 	}
+	ft_printf("I drew a plane\n");
 }
  

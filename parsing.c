@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:26:36 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/10 13:38:15 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/23 01:09:24 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ int read_map(int fd, t_map *map, char *file_name)
     int i;
     int save_length;
 
+    ft_printf("address in read map %p\n", &map);
     map->width = count_new_lines(fd); // Handle edge case if returned 0
 	map->width--; // hardcode cause i dont want to count the last new line
 	close(fd);
