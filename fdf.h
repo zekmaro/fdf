@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/28 14:33:26 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/28 20:10:17 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,36 +24,39 @@
 # include <math.h>
 
 // KEY DEFINITION LINUX
-# define KEY_PLUS 65451 //scale up
-# define KEY_MINUS 65453 //scale down
-# define W 119
-# define D 100
-# define S 115
-# define A 97
-# define KEY_LEFT 65361
-# define KEY_RIGHT 65363
-# define KEY_UP 65362
-# define KEY_DOWN 65364
-# define ESCAPE 65307
+// # define KEY_PLUS 65451 //scale up
+// # define KEY_MINUS 65453 //scale down
+// # define W 119
+// # define D 100
+// # define S 115
+// # define A 97
+// # define KEY_LEFT 65361
+// # define KEY_RIGHT 65363
+// # define KEY_UP 65362
+// # define KEY_DOWN 65364
+// # define ESCAPE 65307
 
 // KEY DEFINITIONS MAC
-// # define KEY_PLUS 30 //scale up
-// # define KEY_MINUS 44 //scale down
-// # define W 13
-// # define D 2
-// # define S 1
-// # define A 0
-// # define KEY_LEFT 123
-// # define KEY_RIGHT 124
-// # define KEY_UP 126
-// # define KEY_DOWN 125
-// # define ESCAPE 53
+# define KEY_PLUS 30 //scale up
+# define KEY_MINUS 44 //scale down
+# define W 13
+# define D 2
+# define S 1
+# define A 0
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_UP 126
+# define KEY_DOWN 125
+# define ESCAPE 53
 
 // COLORS
 # define WHITE 0xFFFFFF
 # define RED 0xFF0000
 # define PURPLE 0x800080
 # define BLACK 0x000000
+
+// for makefile compilation from linux: -lmlx -lXext -lX11 -lm -o
+// for mac: -framework OpenGL -framework AppKit -o
 
 typedef struct s_map
 {
@@ -117,9 +120,6 @@ typedef struct s_vars
 	t_line *line;
 } t_vars;
 
-// for makefile compilation from linux: -lmlx -lXext -lX11 -lm -o
-// for mac: -framework OpenGL -framework AppKit -o
-
 //----DRAWING----
 void	clean_screen(t_vars *vars);
 int		define_step(const int a, const int b);
@@ -144,8 +144,8 @@ void	initialise_vars(t_vars *vars);
 
 //----MEMEMORY_FREEING---
 void	free_memory(char **arr);
-void 	ft_free_map(t_map *map);
-void 	ft_free_colors(t_map *map);
+void 	free_map(t_map *map);
+void 	free_map_colors(t_map *map);
 void	cleanup_vars(t_vars *vars);
 void	free_and_exit(t_vars *vars);
 //-------------

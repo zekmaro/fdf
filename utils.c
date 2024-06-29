@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:27:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/28 14:04:16 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:43:45 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	calculate_center(t_map *map)
 	map->center_x = map->length / 2;
 	map->center_y = map->width / 2;
 }
-
 
 void	get_max_height(t_map *map)
 {

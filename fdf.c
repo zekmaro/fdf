@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/28 14:52:47 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/28 20:10:43 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	handle_key(int keycode, t_vars *vars)
 		//rotate_down(vars->map);
 	}
 }
-
 
 int key_hook(int keycode, t_vars *vars)
 {
@@ -78,8 +77,9 @@ int main(int argc, char **argv)
 	initialise_vars(&vars);
     if (!read_map(fd, vars.map, argv[1]))
 	{
-		ft_free_map(vars.map);
-		ft_free_colors(vars.map);
+		free_map(vars.map);
+		free_map_colors(vars.map);
+		cleanup_vars(&vars);
         perror("Error reading line!\n");
         exit(EXIT_FAILURE);
 	}
