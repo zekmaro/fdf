@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/28 20:10:17 by andrejarama      ###   ########.fr       */
+/*   Updated: 2024/06/29 14:13:58 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,30 @@
 # include <math.h>
 
 // KEY DEFINITION LINUX
-// # define KEY_PLUS 65451 //scale up
-// # define KEY_MINUS 65453 //scale down
-// # define W 119
-// # define D 100
-// # define S 115
-// # define A 97
-// # define KEY_LEFT 65361
-// # define KEY_RIGHT 65363
-// # define KEY_UP 65362
-// # define KEY_DOWN 65364
-// # define ESCAPE 65307
+# define KEY_PLUS 65451 //scale up
+# define KEY_MINUS 65453 //scale down
+# define W 119
+# define D 100
+# define S 115
+# define A 97
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
+# define KEY_UP 65362
+# define KEY_DOWN 65364
+# define ESCAPE 65307
 
 // KEY DEFINITIONS MAC
-# define KEY_PLUS 30 //scale up
-# define KEY_MINUS 44 //scale down
-# define W 13
-# define D 2
-# define S 1
-# define A 0
-# define KEY_LEFT 123
-# define KEY_RIGHT 124
-# define KEY_UP 126
-# define KEY_DOWN 125
-# define ESCAPE 53
+// # define KEY_PLUS 30 //scale up
+// # define KEY_MINUS 44 //scale down
+// # define W 13
+// # define D 2
+// # define S 1
+// # define A 0
+// # define KEY_LEFT 123
+// # define KEY_RIGHT 124
+// # define KEY_UP 126
+// # define KEY_DOWN 125
+// # define ESCAPE 53
 
 // COLORS
 # define WHITE 0xFFFFFF
@@ -69,6 +69,7 @@ typedef struct s_map
 	int				step;
 	int				center_x;
 	int				center_y;
+	int				rotation_const;
 } t_map;
 
 typedef struct s_img
@@ -96,28 +97,28 @@ typedef struct s_colors
 
 typedef struct s_mlx
 {
-    void *mlx;
-    void *win;
-	int window_width;
-	int	window_height;
+    void	*mlx;
+    void	*win;
+	int		window_width;
+	int		window_height;
 } t_mlx;
 
 typedef struct s_line
 {
-    int x0, y0;
-    int x1, y1;
-	int src_x;
-	int src_y;
+    int	x0, y0;
+    int	x1, y1;
+	int	src_x;
+	int	src_y;
 } t_line;
 
 typedef struct s_vars 
 {
-	t_map *map;
-	t_img *image;
-	t_img *color;
-	t_colors *colors;
-	t_mlx *mlx;
-	t_line *line;
+	t_map		*map;
+	t_img		*image;
+	t_img		*color;
+	t_colors	*colors;
+	t_mlx		*mlx;
+	t_line		*line;
 } t_vars;
 
 //----DRAWING----

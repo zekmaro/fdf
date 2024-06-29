@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/06/28 20:10:43 by andrejarama      ###   ########.fr       */
-=======
-/*   Updated: 2024/06/28 15:28:49 by anarama          ###   ########.fr       */
->>>>>>> 8a8b299 (some change in fdf.c)
+/*   Updated: 2024/06/29 16:32:26 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +27,9 @@ void	handle_key(int keycode, t_vars *vars)
 	else if (keycode == KEY_MINUS)
 		vars->map->step -= 1;
 	else if (keycode == W)
-	{
-		//rotate_up(vars->map);
-	}
+		vars->map->rotation_const += 10;
 	else if (keycode == S)
-	{
-		//rotate_down(vars->map);
-	}
+		vars->map->rotation_const -= 10;
 }
 
 int key_hook(int keycode, t_vars *vars)
@@ -88,7 +80,9 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
 	}
 	// Works DONT TOUCH
+	vars.map->rotation_const = 0;
 	vars.map->step = calculate_step(&vars);
+	calculate_center(vars.map);
     vars.mlx->mlx = mlx_init();
     vars.mlx->win = mlx_new_window(vars.mlx->mlx, vars.mlx->window_width, vars.mlx->window_height, "Draw Grid");
 	get_data_image(vars.image, vars.mlx);
