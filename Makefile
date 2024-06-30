@@ -20,7 +20,7 @@ all		: $(NAME)
 $(NAME)	: $(OBJ) fdf.h
 	make -C ft_printf all
 	make -C libft all
-	$(CC) $(OBJ) $(LIBS) -lmlx -lXext -lX11 -lm -o $(NAME)
+	$(CC) $(OBJ) $(LIBS) -framework OpenGL -framework AppKit -o $(NAME)
 
 clean	:
 	make -C ft_printf clean

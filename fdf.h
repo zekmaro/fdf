@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/30 16:07:00 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/30 22:46:15 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,34 +24,38 @@
 # include <math.h>
 
 // KEY DEFINITION LINUX
-# define KEY_PLUS 65451 //scale up
-# define KEY_MINUS 65453 //scale down
-# define W 119
-# define D 100
-# define S 115
-# define A 97
-# define Q 113
-# define E 101
-# define KEY_LEFT 65361
-# define KEY_RIGHT 65363
-# define KEY_UP 65362
-# define KEY_DOWN 65364
-# define ESCAPE 65307
-# define SCALE_HEIGHTS_UP 65450
-# define SCALE_HEIGHTS_DOWN 65455
+// # define KEY_PLUS 65451 //scale up
+// # define KEY_MINUS 65453 //scale down
+// # define W 119
+// # define D 100
+// # define S 115
+// # define A 97
+// # define Q 113
+// # define E 101
+// # define KEY_LEFT 65361
+// # define KEY_RIGHT 65363
+// # define KEY_UP 65362
+// # define KEY_DOWN 65364
+// # define ESCAPE 65307
+// # define SCALE_HEIGHTS_UP 65450
+// # define SCALE_HEIGHTS_DOWN 65455
 
 // KEY DEFINITIONS MAC
-// # define KEY_PLUS 30 //scale up
-// # define KEY_MINUS 44 //scale down
-// # define W 13
-// # define D 2
-// # define S 1
-// # define A 0
-// # define KEY_LEFT 123
-// # define KEY_RIGHT 124
-// # define KEY_UP 126
-// # define KEY_DOWN 125
-// # define ESCAPE 53
+# define KEY_PLUS 30 //scale up
+# define KEY_MINUS 44 //scale down
+# define W 13
+# define D 2
+# define S 1
+# define A 0
+# define Q 12
+# define E 14
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_UP 126
+# define KEY_DOWN 125
+# define ESCAPE 53
+# define SCALE_HEIGHTS_UP 33
+# define SCALE_HEIGHTS_DOWN 35
 
 // COLORS
 # define WHITE 0xFFFFFF
@@ -89,16 +93,16 @@ typedef struct s_img
 
 typedef struct s_color
 {
-	unsigned long color;
-	int red;
-	int green;
-	int blue;
+	unsigned long	color;
+	int 			red;
+	int 			green;
+	int				blue;
 } t_color;
 
 typedef struct s_colors
 {
-	t_color *white;
-	t_color *red;
+	t_color	*white;
+	t_color	*red;
 } t_colors;
 
 typedef struct s_mlx
@@ -129,8 +133,6 @@ typedef struct s_vars
 
 //----DRAWING----
 void	clean_screen(t_vars *vars);
-int		define_step(const int a, const int b);
-void 	draw_line(t_img *image, t_line *line, unsigned long color);
 void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors);
 //-------------
 

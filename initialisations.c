@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialisations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 23:44:35 by andrejarama       #+#    #+#             */
-/*   Updated: 2024/06/30 17:28:35 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/30 19:38:21 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	initialise_colors(t_vars *vars, t_colors *colors)
 	ft_bzero(colors, sizeof(t_colors));
 	ft_bzero(white, sizeof(t_color));
 	ft_bzero(red, sizeof(t_color));
-	white->color = WHITE;
+	white->color = PURPLE;
 	red->color = RED;
+	initialise_rgb(white);
+	initialise_rgb(red);
 	colors->red = red;
 	colors->white = white;
-	initialise_rgb(colors->white);
-	initialise_rgb(colors->red);
 	vars->colors = colors;
 }
 

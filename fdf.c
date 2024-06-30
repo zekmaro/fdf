@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/30 16:13:03 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/30 22:38:38 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,17 @@ void	handle_key(int keycode, t_vars *vars)
 	else if (keycode == D)
 		vars->map->rotation_y -= 10;
 	else if (keycode == SCALE_HEIGHTS_UP)
+	{
 		scale_heights_up(vars->map);
+		get_max_height(vars->map);
+		get_min_height(vars->map);
+	}
 	else if (keycode == SCALE_HEIGHTS_DOWN)
+	{
 		scale_heights_down(vars->map);
-		
+		get_max_height(vars->map);
+		get_min_height(vars->map);
+	}	
 }
 
 int key_hook(int keycode, t_vars *vars)
@@ -138,11 +145,12 @@ int main(int argc, char **argv)
         perror("Error reading line!\n");
         exit(EXIT_FAILURE);
 	}
-	// Works DONT TOUCH
 	vars.map->rotation_x = 0;
 	vars.map->rotation_y = 0;
 	vars.map->rotation_z = 0;
 	vars.map->step = calculate_step(&vars);
+	get_max_height(vars.map);
+	get_min_height(vars.map);
 	calculate_center(vars.map);
     vars.mlx->mlx = mlx_init();
     vars.mlx->win = mlx_new_window(vars.mlx->mlx, vars.mlx->window_width, vars.mlx->window_height, "Draw Grid");

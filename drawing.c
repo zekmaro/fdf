@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:44:22 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/30 15:35:31 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/30 20:04:18 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,35 @@ int	define_step(const int a, const int b)
 		return (0);
 }
 
-void draw_line(t_img *image, t_line *line, unsigned long color)
+void draw_line(t_img *image, t_line *line, unsigned long color, t_colors *colors, t_map *map, int dh, int height)
 {
 	const int step_x = define_step(line->x0, line->x1);
 	const int step_y = define_step(line->y0, line->y1);
 	const int dx = abs(line->x1 - line->x0);
 	const int dy = abs(line->y1 - line->y0);
+	const int amount_pixels = sqrt(dx * dx + dy * dy);
+	int fraction = amount_pixels / abs(dh);
 	int error;
 	int x0;
 	int y0;
-
+	
 	int i = 0;
 	error = 0;
 	x0 = line->x0;
 	y0 = line->y0;
+	while (dh && fraction * abs(dh) < amount_pixels + amount_pixels / 4)
+		fraction++;
 	while (1)
 	{
+		color = calculate_gradient(colors->white, colors->red, map, height);
 		put_pixel_to_image(image, x0, y0, color);
+		if (i % fraction == 0)
+		{
+			if (dh > 0)
+				height++;
+			else if (dh < 0)
+				height--;
+		}
 		if (x0 == line->x1 && y0 == line->y1)
 			break ;
 		error = abs(x0 - line->x0) * dy - abs(y0 - line->y0) * dx;
@@ -125,7 +137,7 @@ void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors)
 	const double angle_z = map->rotation_z * (M_PI / 180.0);
 	const double angle_x = map->rotation_x * (M_PI / 180.0);
 	const double angle_y = map->rotation_y * (M_PI / 180.0);
-	//int dh;
+	int dh;
 
 	(void) colors;
 	i = 0;
@@ -140,7 +152,8 @@ void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors)
 				check_rotations(line, map, angle_x, angle_y, angle_z);
 				isometric_transform(&(line->x0), &(line->y0) , line->z0, line);
 				isometric_transform(&(line->x1), &(line->y1) , line->z1, line);
-				draw_line(image, line, map->colors[i][j]);
+				dh = map->grid[i][j + 1] - map->grid[i][j];
+				draw_line(image, line, map->colors[i][j], colors, map, dh, map->grid[i][j]);
 			}
 			if (i < map->width - 1)
 			{
@@ -148,8 +161,8 @@ void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors)
 				check_rotations(line, map, angle_x, angle_y, angle_z);
 				isometric_transform(&(line->x0), &(line->y0) , line->z0, line);
 				isometric_transform(&(line->x1), &(line->y1) , line->z1, line);
-				//dh = map->grid[i + 1][j] - map->grid[i][j];
-				draw_line(image, line, map->colors[i][j]);
+				dh = map->grid[i + 1][j] - map->grid[i][j];
+				draw_line(image, line, map->colors[i][j], colors, map, dh, map->grid[i][j]);
 			}
 			j++;
 		}

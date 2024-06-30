@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gradient.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:54:44 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/30 17:33:37 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/30 19:35:57 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	interpolate(int start_component, int end_component, t_map *map, int height)
 	int result;
 	const int dh = map->max_height - map->min_height;
 	const int d_rgb = end_component - start_component;
+	if (dh == 0)
+		return (start_component);
 	result = start_component + d_rgb * (height - map->min_height) / dh;
 	return (result);
 }
