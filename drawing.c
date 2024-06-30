@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:44:22 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/29 18:54:30 by andrejarama      ###   ########.fr       */
+/*   Updated: 2024/06/30 15:35:31 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,53 @@ void draw_line(t_img *image, t_line *line, unsigned long color)
 	}
 }
 
+void	check_rotations(t_line *line, t_map *map, double angle_x, double angle_y, double angle_z)
+{
+	if (map->rotation_z != 0)
+	{
+		rotation_z(&line->x0, &line->y0, angle_z);
+        rotation_z(&line->x1, &line->y1, angle_z);
+	}
+	if (map->rotation_x != 0)
+	{
+		rotation_x(&line->y0, &line->z0, angle_x);
+		rotation_x(&line->y1, &line->z1, angle_x);
+	}
+	if (map->rotation_y != 0)
+	{
+		rotation_y(&line->x0, &line->z0, angle_y);
+		rotation_y(&line->x1, &line->z1, angle_y);
+	}
+}
+
+void	initialise_coordinates_x(t_line *line, t_map *map, int i, int j)
+{
+	line->x0 = j * map->step;
+	line->y0 = i * map->step;
+	line->z0 = map->grid[i][j];
+	line->x1 = (j + 1) * map->step;
+	line->y1 = i * map->step;
+	line->z1 = map->grid[i][j + 1];
+}
+
+void	initialise_coordinates_y(t_line *line, t_map *map, int i, int j)
+{
+	line->x0 = j * map->step;
+	line->y0 = i * map->step;
+	line->z0 = map->grid[i][j];
+	line->x1 = j * map->step;
+	line->y1 = (i + 1) * map->step;
+	line->z1 = map->grid[i + 1][j];
+}
+
 void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors)
 {
 	int i;
 	int j;
+	// better to put angles into their struct
+	const double angle_z = map->rotation_z * (M_PI / 180.0);
+	const double angle_x = map->rotation_x * (M_PI / 180.0);
+	const double angle_y = map->rotation_y * (M_PI / 180.0);
 	//int dh;
 
 	(void) colors;
@@ -93,22 +136,18 @@ void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors)
 		{
 			if (j < map->length - 1)
 			{
-				line->x0 = j * map->step;
-				line->y0 = i * map->step;
-				line->x1 = (j + 1) * map->step;
-				line->y1 = i * map->step;
-				isometric_transform(&(line->x0), &(line->y0) , map->grid[i][j], line);
-				isometric_transform(&(line->x1), &(line->y1) , map->grid[i][j + 1], line);
+				initialise_coordinates_x(line, map, i, j);
+				check_rotations(line, map, angle_x, angle_y, angle_z);
+				isometric_transform(&(line->x0), &(line->y0) , line->z0, line);
+				isometric_transform(&(line->x1), &(line->y1) , line->z1, line);
 				draw_line(image, line, map->colors[i][j]);
 			}
 			if (i < map->width - 1)
 			{
-				line->x0 = j * map->step;
-				line->y0 = i * map->step;
-				line->x1 = j * map->step;
-				line->y1 = (i + 1) * map->step;
-				isometric_transform(&(line->x0), &(line->y0) , map->grid[i][j], line);
-				isometric_transform(&(line->x1), &(line->y1) , map->grid[i + 1][j], line);
+				initialise_coordinates_y(line, map, i, j);
+				check_rotations(line, map, angle_x, angle_y, angle_z);
+				isometric_transform(&(line->x0), &(line->y0) , line->z0, line);
+				isometric_transform(&(line->x1), &(line->y1) , line->z1, line);
 				//dh = map->grid[i + 1][j] - map->grid[i][j];
 				draw_line(image, line, map->colors[i][j]);
 			}

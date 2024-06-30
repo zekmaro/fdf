@@ -6,23 +6,45 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:58:43 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/28 12:59:16 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/30 15:13:32 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void rotation_up_transform(int *x, int *y, int dx, int dy)
-{
-	*x -= dx;
-	*y -= dy;
-}
 
-void isometric_transform(int *x, int *y, int z, t_line *line)
+void	isometric_transform(int *x, int *y, int z, t_line *line)
 {
     const double angle = M_PI / 6;
    	int temp_x = *x;
     int temp_y = *y;
 	*x = (temp_x - temp_y) * cos(angle) + line->src_x;
 	*y = (temp_x + temp_y) * sin(angle) - z + line->src_y;
+}
+
+void	rotation_x(int *y, int *z, double angle)
+{
+    int temp_y = *y;
+	int temp_z = *z;
+
+	*y = temp_y * cos(angle) - temp_z * sin(angle);
+	*z = temp_y * sin(angle) + temp_z * cos(angle);
+}
+
+void	rotation_y(int *x, int *z, double angle)
+{
+	int temp_x = *x;
+	int temp_z = *z;
+
+	*x = temp_x * cos(angle) + temp_z * sin(angle);
+	*z = -temp_x * sin(angle) + temp_z * cos(angle);
+}
+
+void	rotation_z(int *x, int *y, double angle)
+{
+	int temp_x = *x;
+	int temp_y = *y;
+
+	*x = temp_x * cos(angle) - temp_y * sin(angle);
+	*y = temp_x * sin(angle) + temp_y * cos(angle);
 }

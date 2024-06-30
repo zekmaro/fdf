@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/29 18:54:05 by andrejarama      ###   ########.fr       */
+/*   Updated: 2024/06/30 15:25:22 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,18 @@ void	handle_key(int keycode, t_vars *vars)
 		vars->map->step += 1;
 	else if (keycode == KEY_MINUS)
 		vars->map->step -= 1;
-	// else if (keycode == W)
-	// 	vars->map->rotation_const += 10;
-	// else if (keycode == S)
-	// 	vars->map->rotation_const -= 10;
+	else if (keycode == W)
+		vars->map->rotation_x += 10;
+	else if (keycode == S)
+		vars->map->rotation_x -= 10;
+	else if (keycode == Q)
+		vars->map->rotation_z += 10;
+	else if (keycode == E)
+		vars->map->rotation_z -= 10;
+	else if (keycode == A)
+		vars->map->rotation_y += 10;
+	else if (keycode == D)
+		vars->map->rotation_y -= 10;
 }
 
 int key_hook(int keycode, t_vars *vars)
@@ -80,7 +88,9 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
 	}
 	// Works DONT TOUCH
-	vars.map->rotation_const = 0;
+	vars.map->rotation_x = 0;
+	vars.map->rotation_y = 0;
+	vars.map->rotation_z = 0;
 	vars.map->step = calculate_step(&vars);
 	calculate_center(vars.map);
     vars.mlx->mlx = mlx_init();
