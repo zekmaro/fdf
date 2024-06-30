@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/29 16:32:26 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/29 18:54:05 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	handle_key(int keycode, t_vars *vars)
 		vars->map->step += 1;
 	else if (keycode == KEY_MINUS)
 		vars->map->step -= 1;
-	else if (keycode == W)
-		vars->map->rotation_const += 10;
-	else if (keycode == S)
-		vars->map->rotation_const -= 10;
+	// else if (keycode == W)
+	// 	vars->map->rotation_const += 10;
+	// else if (keycode == S)
+	// 	vars->map->rotation_const -= 10;
 }
 
 int key_hook(int keycode, t_vars *vars)

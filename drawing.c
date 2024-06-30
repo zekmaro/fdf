@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:44:22 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/29 16:14:45 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/29 18:54:30 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,28 +78,6 @@ void draw_line(t_img *image, t_line *line, unsigned long color)
 	}
 }
 
-void	normalize(t_line *line, int center_y, int current_y_index, int target_y_index, t_map *map)
-{
-	const int delta_current = map->rotation_const * (center_y - current_y_index);
-	const int delta_target = map->rotation_const * (center_y - target_y_index);
-
-	line->x0 += delta_current;
-	line->y0 += delta_current;
-	line->x1 += delta_target;
-	line->y1 += delta_target;
-}
-
-void	rotate(t_line *line, int center_y, int current_y_index, int target_y_index, t_map *map)
-{
-	const int delta_current = map->rotation_const * (center_y - current_y_index);
-	const int delta_target = map->rotation_const * (center_y - target_y_index);
-
-	line->x0 -= delta_current;
-	line->y0 -= delta_current;
-	line->x1 -= delta_target;
-	line->y1 -= delta_target;
-}
-
 void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors)
 {
 	int i;
@@ -121,11 +99,7 @@ void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors)
 				line->y1 = i * map->step;
 				isometric_transform(&(line->x0), &(line->y0) , map->grid[i][j], line);
 				isometric_transform(&(line->x1), &(line->y1) , map->grid[i][j + 1], line);
-				if (map->rotation_const != 0)
-					rotate(line, map->center_y, i, i, map);
 				draw_line(image, line, map->colors[i][j]);
-				if (map->rotation_const != 0)
-					normalize(line, map->center_y, i, i, map);
 			}
 			if (i < map->width - 1)
 			{
@@ -136,11 +110,7 @@ void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors)
 				isometric_transform(&(line->x0), &(line->y0) , map->grid[i][j], line);
 				isometric_transform(&(line->x1), &(line->y1) , map->grid[i + 1][j], line);
 				//dh = map->grid[i + 1][j] - map->grid[i][j];
-				if (map->rotation_const != 0)
-					rotate(line, map->center_y, i, i + 1, map);
 				draw_line(image, line, map->colors[i][j]);
-				if (map->rotation_const != 0)
-					normalize(line, map->center_y, i, i + 1, map);
 			}
 			j++;
 		}
