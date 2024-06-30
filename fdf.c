@@ -6,11 +6,57 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:36:25 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/30 15:25:22 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/30 16:13:03 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	scale_heights_up(t_map *map)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < map->width - 1)
+	{
+		j = 0;
+		while (j < map->length - 1)
+		{
+			if (map->grid[i][j] != 0)
+			{
+				map->grid[i][j] += 10;
+				if (map->grid[i][j] == 0)
+					map->grid[i][j] += 10;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void	scale_heights_down(t_map *map)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < map->width - 1)
+	{
+		j = 0;
+		while (j < map->length - 1)
+		{
+			if (map->grid[i][j] != 0)
+			{
+				map->grid[i][j] -= 10;
+				if (map->grid[i][j] == 0)
+					map->grid[i][j] -= 10;
+			}
+			j++;
+		}
+		i++;
+	}
+}
 
 void	handle_key(int keycode, t_vars *vars)
 {
@@ -38,6 +84,11 @@ void	handle_key(int keycode, t_vars *vars)
 		vars->map->rotation_y += 10;
 	else if (keycode == D)
 		vars->map->rotation_y -= 10;
+	else if (keycode == SCALE_HEIGHTS_UP)
+		scale_heights_up(vars->map);
+	else if (keycode == SCALE_HEIGHTS_DOWN)
+		scale_heights_down(vars->map);
+		
 }
 
 int key_hook(int keycode, t_vars *vars)
@@ -106,5 +157,5 @@ int main(int argc, char **argv)
 
 // REFACTOR THE CODE + FILE STRUCTURE (DONE (only left the white/red colors intialisation))
 // GET RID OF LEAKS ( :) )
-// IMPLEMENT ROTATIONS (CURRENT FOCUS)
-// DO GRADIENT
+// IMPLEMENT ROTATIONS (WOKRING BUT I WANT TO CHANGE ROTATION AXES)
+// DO GRADIENT (CURRENT FOCUS)

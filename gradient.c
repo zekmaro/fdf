@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:54:44 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/28 14:11:10 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/30 17:33:37 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,3 @@ unsigned long	calculate_gradient(t_color *color_start, t_color *color_end, t_map
 	result = combine_rgb(result_red, result_green, result_blue);
 	return (result);
 }
-

@@ -6,34 +6,33 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 23:44:35 by andrejarama       #+#    #+#             */
-/*   Updated: 2024/06/28 14:48:30 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/30 17:28:35 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-// void	initialise_colors(t_vars *vars, t_colors *colors)
-// {
-// 	t_color *white;
-// 	t_color *red;
+void	initialise_colors(t_vars *vars, t_colors *colors)
+{
+	t_color *white;
+	t_color *red;
 
-// 	colors = (t_colors *)(malloc(sizeof(t_colors)));
-// 	white = (t_color *)(malloc(sizeof(t_color)));
-// 	red = (t_color *)(malloc(sizeof(t_color)));
-// 	if (!colors || !white || !red)
-// 		cleanup_vars(vars);
-// 	ft_bzero(colors, sizeof(t_colors));
-// 	ft_bzero(white, sizeof(t_color));
-// 	ft_bzero(red, sizeof(t_color));
-// 	white->color = WHITE;
-// 	red->color = RED;
-// 	colors->red = &red;
-// 	colors->white = &white;
-// 	initialise_rgb(colors->white);
-// 	initialise_rgb(colors->red);
-	
-// 	vars->colors = colors;
-// }
+	colors = (t_colors *)(malloc(sizeof(t_colors)));
+	white = (t_color *)(malloc(sizeof(t_color)));
+	red = (t_color *)(malloc(sizeof(t_color)));
+	if (!colors || !white || !red)
+		cleanup_vars(vars);
+	ft_bzero(colors, sizeof(t_colors));
+	ft_bzero(white, sizeof(t_color));
+	ft_bzero(red, sizeof(t_color));
+	white->color = WHITE;
+	red->color = RED;
+	colors->red = red;
+	colors->white = white;
+	initialise_rgb(colors->white);
+	initialise_rgb(colors->red);
+	vars->colors = colors;
+}
 
 void	initialise_mlx(t_vars *vars, t_mlx *mlx)
 {
@@ -79,20 +78,20 @@ void	initialise_map(t_vars *vars, t_map *map)
 void	initialise_vars(t_vars *vars)
 {
 	t_img		*image;
-	//t_colors	*colors;
+	t_colors	*colors;
 	t_mlx		*mlx;
 	t_line		*line;
 	t_map		*map;
 
 	image = NULL;
-	//colors = NULL;
+	colors = NULL;
 	mlx = NULL;
 	line = NULL;
 	map = NULL;
 
 	initialise_image(vars, image);
 	initialise_map(vars, map);
-	//initialise_colors(vars, colors);
+	initialise_colors(vars, colors);
 	initialise_mlx(vars, mlx);
 	initialise_line(vars, line);
 }

@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/30 15:17:38 by anarama          ###   ########.fr       */
+/*   Updated: 2024/06/30 16:07:00 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define KEY_UP 65362
 # define KEY_DOWN 65364
 # define ESCAPE 65307
+# define SCALE_HEIGHTS_UP 65450
+# define SCALE_HEIGHTS_DOWN 65455
 
 // KEY DEFINITIONS MAC
 // # define KEY_PLUS 30 //scale up

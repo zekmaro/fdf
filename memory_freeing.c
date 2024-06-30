@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_freeing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:44:48 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/28 20:11:15 by andrejarama      ###   ########.fr       */
+/*   Updated: 2024/06/30 17:29:40 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void    cleanup_vars(t_vars *vars)
 {
     if (vars->map) free(vars->map);
     if (vars->image) free(vars->image);
+	if (vars->colors->white) free(vars->colors->white);
+	if (vars->colors->red) free(vars->colors->red);
     if (vars->colors) free(vars->colors);
     if (vars->mlx) free(vars->mlx);
     if (vars->line) free(vars->line);
