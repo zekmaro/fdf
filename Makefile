@@ -2,10 +2,13 @@ NAME	:= fdf
 CC		:= cc
 SRC		:=	get_next_line/get_next_line.c \
 			get_next_line/get_next_line_utils.c \
+			colors_handling.c \
 			drawing.c \
 			fdf.c \
 			gradient.c \
+			image_handling.c \
 			initialisations.c \
+			key_handling.c \
 			memory_freeing.c \
 			parsing.c \
 			printing.c \
@@ -20,7 +23,7 @@ all		: $(NAME)
 $(NAME)	: $(OBJ) fdf.h
 	make -C ft_printf all
 	make -C libft all
-	$(CC) $(OBJ) $(LIBS) -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $(OBJ) $(LIBS) -lmlx -lXext -lX11 -lm -o $(NAME)
 
 clean	:
 	make -C ft_printf clean

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialisations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/22 23:44:35 by andrejarama       #+#    #+#             */
-/*   Updated: 2024/06/30 19:38:21 by andrejarama      ###   ########.fr       */
+/*   Created: 2024/07/01 10:35:26 by anarama           #+#    #+#             */
+/*   Updated: 2024/07/01 10:35:28 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

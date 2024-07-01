@@ -3,25 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   gradient.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 12:54:44 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/30 19:35:57 by andrejarama      ###   ########.fr       */
+/*   Created: 2024/07/01 10:35:14 by anarama           #+#    #+#             */
+/*   Updated: 2024/07/01 10:41:45 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "fdf.h"
-
-void put_pixel_to_image(t_img *image, int x, int y, int color)
-{
-    int index;
-
-    index = (x * (image->bits_per_pixel / 8)) + (y * (image->line_len));
-    (image->addr)[index] = color & 0xFF;
-    (image->addr)[index + 1] = (color >> 8) & 0xFF;
-    (image->addr)[index + 2] = (color >> 16) & 0xFF;
-}
-
 
 int get_red(unsigned long color)
 {

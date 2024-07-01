@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:44:22 by anarama           #+#    #+#             */
-/*   Updated: 2024/06/30 20:04:18 by andrejarama      ###   ########.fr       */
+/*   Updated: 2024/07/01 10:40:45 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	clean_screen(t_vars *vars)
-{
-	int x;
-	int y;
-
-	y = 0;	
-	while (y != vars->mlx->window_height)
-	{
-		x = 0;
-		while (x != vars->mlx->window_width)
-		{
-			put_pixel_to_image(vars->image, x, y, BLACK);
-			x++;
-		}
-		y++;
-	}
-}
 
 int	define_step(const int a, const int b)
 {
@@ -47,22 +29,25 @@ void draw_line(t_img *image, t_line *line, unsigned long color, t_colors *colors
 	const int dx = abs(line->x1 - line->x0);
 	const int dy = abs(line->y1 - line->y0);
 	const int amount_pixels = sqrt(dx * dx + dy * dy);
-	int fraction = amount_pixels / abs(dh);
+	int fraction = 0;
 	int error;
 	int x0;
 	int y0;
-	
 	int i = 0;
 	error = 0;
 	x0 = line->x0;
 	y0 = line->y0;
+	if (dh)
+	{
+		fraction = amount_pixels / abs(dh);
+	}
 	while (dh && fraction * abs(dh) < amount_pixels + amount_pixels / 4)
 		fraction++;
 	while (1)
 	{
 		color = calculate_gradient(colors->white, colors->red, map, height);
 		put_pixel_to_image(image, x0, y0, color);
-		if (i % fraction == 0)
+		if (fraction && i % fraction == 0)
 		{
 			if (dh > 0)
 				height++;
