@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 10:49:05 by anarama          ###   ########.fr       */
+/*   Updated: 2024/07/01 12:36:26 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,13 @@ typedef struct s_map
 	int				rotation_z;
 } t_map;
 
+typedef struct s_angles
+{
+	double angle_x;
+	double angle_y;
+	double angle_z;
+} t_angles;
+
 typedef struct s_img
 {
     void	*mlx_img;
@@ -123,6 +130,13 @@ typedef struct s_line
 	int	z1;
 	int	src_x;
 	int	src_y;
+	int dx;
+	int dy;
+	int amount_pixels;
+	int fraction;
+	int	step_x;
+	int step_y;
+	int dh;
 } t_line;
 
 typedef struct s_vars 
@@ -136,13 +150,16 @@ typedef struct s_vars
 } t_vars;
 
 //----COLORS_HANDLING----
-unsigned long get_color(char *str);
+unsigned long	get_color(char *str);
 //-----------------------
 
-//----DRAWING----
-void	clean_screen(t_vars *vars);
-void	draw_plane(t_img *image, t_line *line, t_map *map, t_colors *colors);
-//-------------
+//----DRAW_LINE----
+void draw_line(t_vars *vars, unsigned long color,  int height);
+//-----------------
+
+//----DRAW_MAP----
+void	draw_map(t_vars *vars);
+//----------------
 
 //---GRADIENT---
 int				get_red(unsigned long color);
@@ -155,11 +172,14 @@ unsigned long	calculate_gradient(t_color *color_start, t_color *color_end, t_map
 //-------------
 
 //----IMAGE_HANDLING----
+void	clean_screen(t_vars *vars);
 void	get_data_image(t_img *image, t_mlx *mlx);
 void	put_pixel_to_image(t_img *image, int x, int y, int color);
 //----------------------
 //---INITIALISATION---
 void	initialise_vars(t_vars *vars);
+void	initialise_map_vars(t_vars *vars);
+void	inititalise_angles(t_angles *angles, t_vars *vars);
 //--------------------
 
 //----KEY_HANDLING----

@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:35:26 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 10:35:28 by anarama          ###   ########.fr       */
+/*   Updated: 2024/07/01 12:36:04 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,22 @@ void	initialise_vars(t_vars *vars)
 	initialise_colors(vars, colors);
 	initialise_mlx(vars, mlx);
 	initialise_line(vars, line);
+}
+
+void	initialise_map_vars(t_vars *vars)
+{
+	vars->map->rotation_x = 0;
+	vars->map->rotation_y = 0;
+	vars->map->rotation_z = 0;
+	vars->map->step = calculate_step(vars);
+	get_max_height(vars->map);
+	get_min_height(vars->map);
+	calculate_center(vars->map);
+}
+
+void	inititalise_angles(t_angles *angles, t_vars *vars)
+{
+	angles->angle_x = vars->map->rotation_x * (M_PI / 180.0);
+	angles->angle_y = vars->map->rotation_y * (M_PI / 180.0);
+	angles->angle_z = vars->map->rotation_z * (M_PI / 180.0);
 }

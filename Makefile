@@ -3,7 +3,8 @@ CC		:= cc
 SRC		:=	get_next_line/get_next_line.c \
 			get_next_line/get_next_line_utils.c \
 			colors_handling.c \
-			drawing.c \
+			draw_line.c \
+			draw_map.c \
 			fdf.c \
 			gradient.c \
 			image_handling.c \

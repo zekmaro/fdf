@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:34:50 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 10:36:47 by anarama          ###   ########.fr       */
+/*   Updated: 2024/07/01 12:04:45 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int key_hook(int keycode, t_vars *vars)
     }
 	clean_screen(vars);
 	handle_key(keycode, vars);
-	draw_plane(vars->image, vars->line, vars->map, vars->colors);
+	draw_map(vars);
 	mlx_put_image_to_window(vars->mlx->mlx, vars->mlx->win, vars->image->mlx_img, 0, 0);
 	return (0);
 }
