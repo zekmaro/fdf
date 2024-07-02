@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:25:51 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 15:26:33 by anarama          ###   ########.fr       */
+/*   Updated: 2024/07/02 15:02:40 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	check_rotations(t_line *line, t_map *map, t_angles *angles)
 	if (map->rotation_z != 0)
 	{
 		rotation_z(&line->x0, &line->y0, angles->angle_z);
-        rotation_z(&line->x1, &line->y1, angles->angle_z);
+		rotation_z(&line->x1, &line->y1, angles->angle_z);
 	}
 	if (map->rotation_x != 0)
 	{
@@ -33,8 +33,8 @@ void	check_rotations(t_line *line, t_map *map, t_angles *angles)
 
 void	get_max_height(t_map *map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	map->max_height = map->grid[0][0];
 	i = 0;
@@ -53,8 +53,8 @@ void	get_max_height(t_map *map)
 
 void	get_min_height(t_map *map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	map->min_height = map->grid[0][0];
 	i = 0;
@@ -70,10 +70,11 @@ void	get_min_height(t_map *map)
 		i++;
 	}
 }
+
 void	scale_heights_up(t_map *map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < map->width - 1)
@@ -95,8 +96,8 @@ void	scale_heights_up(t_map *map)
 
 void	scale_heights_down(t_map *map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < map->width - 1)

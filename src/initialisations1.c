@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialisations.c                                  :+:      :+:    :+:   */
+/*   initialisations1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:35:26 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 15:34:04 by anarama          ###   ########.fr       */
+/*   Updated: 2024/07/02 16:17:25 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ void	initialise_colors(t_vars *vars)
 	red = (t_color *)(malloc(sizeof(t_color)));
 	if (!colors || !purple || !red)
 	{
+		free(colors);
+		free(purple);
+		free(red);
 		cleanup_vars(vars);
 		exit (1);
 	}
@@ -38,67 +41,6 @@ void	initialise_colors(t_vars *vars)
 	vars->colors = colors;
 }
 
-void	initialise_mlx(t_vars *vars)
-{
-	t_mlx	*mlx;
-
-	mlx = (t_mlx *)(malloc(sizeof(t_mlx)));
-	if (!mlx)
-	{
-		cleanup_vars(vars);
-		exit (1);
-	}
-	ft_bzero(mlx, sizeof(t_mlx));
-	mlx->window_height = 1080;
-	mlx->window_width = 1920;
-	vars->mlx = mlx;
-}
-
-void	initialise_line(t_vars *vars)
-{
-	t_line	*line;
-
-	line = (t_line *)(malloc(sizeof(t_line)));
-	if (!line)
-	{
-		cleanup_vars(vars);
-		exit (1);
-	}
-	ft_bzero(line, sizeof(t_line));
-	line->src_x = 1000;
-	line->src_y = 300;
-	vars->line = line;
-}
-
-void	initialise_image(t_vars *vars)
-{
-	t_img	*image;
-	
-	image = (t_img *)(malloc(sizeof(t_img)));
-	if (!image)
-	{
-		cleanup_vars(vars);
-		exit (1);
-	}
-	ft_bzero(image, sizeof(t_img));
-	vars->image = image;
-}
-
-void	initialise_map(t_vars *vars)
-{
-	t_map	*map;
-
-	map = (t_map *)(malloc(sizeof(t_map)));
-	if (!map)
-	{
-		cleanup_vars(vars);
-		exit (1);
-	}
-	ft_bzero(map, sizeof(t_map));
-	calculate_center(map);
-	vars->map = map;
-}
-
 void	initialise_vars(t_vars *vars)
 {
 	initialise_image(vars);
@@ -106,6 +48,7 @@ void	initialise_vars(t_vars *vars)
 	initialise_colors(vars);
 	initialise_mlx(vars);
 	initialise_line(vars);
+	vars->transform = isometric_transform;
 }
 
 void	initialise_map_vars(t_vars *vars)

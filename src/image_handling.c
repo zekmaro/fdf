@@ -6,7 +6,7 @@
 /*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:40:18 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 14:45:04 by anarama          ###   ########.fr       */
+/*   Updated: 2024/07/02 14:36:37 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	clean_screen(t_vars *vars)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
-	y = 0;	
+	y = 0;
 	while (y != vars->mlx->window_height)
 	{
 		x = 0;
@@ -30,21 +30,29 @@ void	clean_screen(t_vars *vars)
 	}
 }
 
-void	get_data_image(t_img *image, t_mlx *mlx)
+void	get_data_image(t_vars *vars, t_img *image, t_mlx *mlx)
 {
-	image->mlx_img = mlx_new_image(mlx->mlx, mlx->window_width, mlx->window_height);
-	image->addr = mlx_get_data_addr(image->mlx_img, &(image->bits_per_pixel), &(image->line_len), &(image->endian));
+	image->mlx_img = mlx_new_image(mlx->mlx, mlx->window_width,
+			mlx->window_height);
+	if (!image->mlx_img)
+		free_and_exit(vars);
+	image->addr = mlx_get_data_addr(image->mlx_img, &(image->bits_per_pixel),
+			&(image->line_len), &(image->endian));
+	if (!image->addr)
+		free_and_exit(vars);
 }
 
-void put_pixel_to_image(t_vars *vars, int x, int y, int color)
+void	put_pixel_to_image(t_vars *vars, int x, int y, int color)
 {
-    int index;
+	int	index;
 
-	if (x >= 0 && x < vars->mlx->window_width && y >= 0 && y < vars->mlx->window_height)
+	if (x >= 0 && x < vars->mlx->window_width
+		&& y >= 0 && y < vars->mlx->window_height)
 	{
-		index = (x * (vars->image->bits_per_pixel / 8)) + (y * (vars->image->line_len));
-    	(vars->image->addr)[index] = color & 0xFF;
-    	(vars->image->addr)[index + 1] = (color >> 8) & 0xFF;
-    	(vars->image->addr)[index + 2] = (color >> 16) & 0xFF;
+		index = (x * (vars->image->bits_per_pixel / 8))
+			+ (y * (vars->image->line_len));
+		(vars->image->addr)[index] = color & 0xFF;
+		(vars->image->addr)[index + 1] = (color >> 8) & 0xFF;
+		(vars->image->addr)[index + 2] = (color >> 16) & 0xFF;
 	}
 }

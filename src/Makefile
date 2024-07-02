@@ -8,16 +8,17 @@ SRC		:=	../get_next_line/get_next_line.c \
 			fdf.c \
 			gradient.c \
 			image_handling.c \
-			initialisations.c \
+			initialisations1.c \
+			initialisations2.c \
 			key_handling.c \
-			memory_freeing.c \
+			memory_freeing1.c \
+			memory_freeing2.c \
 			parsing.c \
-			printing.c \
 			transformations.c \
 			utils1.c \
 			utils2.c
 CFLAGS	:= -Wall -Wextra -Werror -g
-LIBS	:= ../libft/libft.a ../ft_printf/libftprintf.a ../minilibx_macos/libmlx.a
+LIBS	:= ../libft/libft.a ../ft_printf/libftprintf.a
 OBJ		:= $(SRC:.c=.o)
 
 all		: $(NAME)
@@ -25,7 +26,7 @@ all		: $(NAME)
 $(NAME)	: $(OBJ) fdf.h
 	make -C ../ft_printf all
 	make -C ../libft all
-	$(CC) $(OBJ) $(LIBS) -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $(OBJ) $(LIBS) -lmlx -lXext -lX11 -lm -o $(NAME)
 
 clean	:
 	make -C ../ft_printf clean

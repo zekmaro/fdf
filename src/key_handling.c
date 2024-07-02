@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_handling.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:34:50 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 17:33:17 by andrejarama      ###   ########.fr       */
+/*   Updated: 2024/07/02 17:03:52 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,27 @@ void	handle_key(int keycode, t_vars *vars)
 	check_translation(keycode, vars);
 	check_rotation(keycode, vars);
 	check_scaling(keycode, vars);
+	if (keycode == J)
+	{
+		vars->transform = isometric_transform;
+	}
+	else if (keycode == K)
+	{
+		vars->transform = parallel_transform;
+	}
 }
 
-int key_hook(int keycode, t_vars *vars)
+int	key_hook(int keycode, t_vars *vars)
 {
 	if (keycode == ESCAPE)
-    {
-        ft_printf("Exiting program.\n");
+	{
+		ft_printf("Exiting program.\n");
 		free_and_exit(vars);
-    }
+	}
 	clean_screen(vars);
 	handle_key(keycode, vars);
 	draw_map(vars);
-	mlx_put_image_to_window(vars->mlx->mlx, vars->mlx->win, vars->image->mlx_img, 0, 0);
+	mlx_put_image_to_window(vars->mlx->mlx, vars->mlx->win,
+		vars->image->mlx_img, 0, 0);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 11:14:55 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 21:30:56 by andrejarama      ###   ########.fr       */
+/*   Updated: 2024/07/02 16:50:03 by anarama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,44 @@ void	initialise_coordinates_y(t_line *line, t_map *map, int i, int j)
 
 void	get_coor_data_x(t_vars *vars, t_angles *angles, int i, int j)
 {
+	if (vars->map->colorized == 1)
+	{
+		vars->colors->low->color = vars->map->colors[i][j];
+		initialise_rgb(vars->colors->low);
+		vars->colors->top->color = vars->map->colors[i][j + 1];
+		initialise_rgb(vars->colors->top);
+	}
 	initialise_coordinates_x(vars->line, vars->map, i, j);
 	check_rotations(vars->line, vars->map, angles);
-	isometric_transform(&(vars->line->x0), &(vars->line->y0) , vars->line->z0, vars->line);
-	isometric_transform(&(vars->line->x1), &(vars->line->y1) , vars->line->z1, vars->line);
+	vars->transform(&(vars->line->x0), &(vars->line->y0),
+		vars->line->z0, vars->line);
+	vars->transform(&(vars->line->x1), &(vars->line->y1),
+		vars->line->z1, vars->line);
 	vars->line->dh = vars->map->grid[i][j + 1] - vars->map->grid[i][j];
 }
 
 void	get_coor_data_y(t_vars *vars, t_angles *angles, int i, int j)
 {
+	if (vars->map->colorized == 1)
+	{
+		vars->colors->low->color = vars->map->colors[i][j];
+		initialise_rgb(vars->colors->low);
+		vars->colors->top->color = vars->map->colors[i + 1][j];
+		initialise_rgb(vars->colors->top);
+	}
 	initialise_coordinates_y(vars->line, vars->map, i, j);
 	check_rotations(vars->line, vars->map, angles);
-	isometric_transform(&(vars->line->x0), &(vars->line->y0) , vars->line->z0, vars->line);
-	isometric_transform(&(vars->line->x1), &(vars->line->y1) , vars->line->z1, vars->line);
+	vars->transform(&(vars->line->x0), &(vars->line->y0),
+		vars->line->z0, vars->line);
+	vars->transform(&(vars->line->x1), &(vars->line->y1),
+		vars->line->z1, vars->line);
 	vars->line->dh = vars->map->grid[i + 1][j] - vars->map->grid[i][j];
 }
 
 void	draw_map(t_vars *vars)
 {
-	int 		i;
-	int 		j;
+	int			i;
+	int			j;
 	t_angles	angles;
 
 	inititalise_angles(&angles, vars);
