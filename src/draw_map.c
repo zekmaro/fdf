@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 11:14:55 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 15:26:09 by anarama          ###   ########.fr       */
+/*   Updated: 2024/07/01 21:30:56 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void	get_coor_data_y(t_vars *vars, t_angles *angles, int i, int j)
 
 void	draw_map(t_vars *vars)
 {
-	int i;
-	int j;
-	t_angles angles;
+	int 		i;
+	int 		j;
+	t_angles	angles;
 
 	inititalise_angles(&angles, vars);
 	i = 0;

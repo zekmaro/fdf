@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_freeing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:44:48 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 15:34:59 by anarama          ###   ########.fr       */
+/*   Updated: 2024/07/01 21:40:27 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void cleanup_vars(t_vars *vars)
             mlx_destroy_window(vars->mlx->mlx, vars->mlx->win);
         if (vars->mlx->mlx) 
 		{
-            mlx_destroy_display(vars->mlx->mlx);
+            //mlx_destroy_display(vars->mlx->mlx);
             free(vars->mlx->mlx); // This frees the display structure
         }
         free(vars->mlx);
@@ -88,8 +88,6 @@ void cleanup_vars(t_vars *vars)
 		free(vars->line);
 }
 
-
-// Handle freeing correctly
 void	free_and_exit(t_vars *vars)
 {
 	cleanup_vars(vars);

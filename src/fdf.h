@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:02:00 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 15:33:24 by anarama          ###   ########.fr       */
+/*   Updated: 2024/07/01 19:47:33 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,42 +21,42 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <math.h>
-# include <mlx.h>
-//# include "../minilibx_macos/mlx.h"
+//# include <mlx.h>
+# include "../minilibx_macos/mlx.h"
 
 // KEY DEFINITION LINUX
-# define KEY_PLUS 65451 //scale up
-# define KEY_MINUS 65453 //scale down
-# define W 119
-# define D 100
-# define S 115
-# define A 97
-# define Q 113
-# define E 101
-# define KEY_LEFT 65361
-# define KEY_RIGHT 65363
-# define KEY_UP 65362
-# define KEY_DOWN 65364
-# define ESCAPE 65307
-# define SCALE_HEIGHTS_UP 65450
-# define SCALE_HEIGHTS_DOWN 65455
+// # define KEY_PLUS 65451 //scale up
+// # define KEY_MINUS 65453 //scale down
+// # define W 119
+// # define D 100
+// # define S 115
+// # define A 97
+// # define Q 113
+// # define E 101
+// # define KEY_LEFT 65361
+// # define KEY_RIGHT 65363
+// # define KEY_UP 65362
+// # define KEY_DOWN 65364
+// # define ESCAPE 65307
+// # define SCALE_HEIGHTS_UP 65450
+// # define SCALE_HEIGHTS_DOWN 65455
 
-// KEY DEFINITIONS MAC
-// # define KEY_PLUS 30 //scale up
-// # define KEY_MINUS 44 //scale down
-// # define W 13
-// # define D 2
-// # define S 1
-// # define A 0
-// # define Q 12
-// # define E 14
-// # define KEY_LEFT 123
-// # define KEY_RIGHT 124
-// # define KEY_UP 126
-// # define KEY_DOWN 125
-// # define ESCAPE 53
-// # define SCALE_HEIGHTS_UP 33
-// # define SCALE_HEIGHTS_DOWN 35
+// KEY DEFINITION MAC
+# define KEY_PLUS 30 //scale up
+# define KEY_MINUS 44 //scale down
+# define W 13
+# define D 2
+# define S 1
+# define A 0
+# define Q 12
+# define E 14
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_UP 126
+# define KEY_DOWN 125
+# define ESCAPE 53
+# define SCALE_HEIGHTS_UP 33
+# define SCALE_HEIGHTS_DOWN 35
 
 // COLORS
 # define WHITE 0xFFFFFF
@@ -65,11 +65,12 @@
 # define BLACK 0x000000
 
 // for makefile compilation from linux: -lmlx -lXext -lX11 -lm -o
-// for mac: -framework OpenGL -framework AppKit -o and lib ../minilibx_macos/libmlx.a
+// for mac: -framework OpenGL -framework AppKit -o 
+// lib for nac ../minilibx_macos/libmlx.a
 
 typedef struct s_map
 {
-	int 			**grid;
+	int				**grid;
 	unsigned long	**colors;
 	int 			width;
 	int 			length;
@@ -205,15 +206,9 @@ void	ft_print_map(t_map *map);
 void 	print_colors(t_map *map);
 //-------------
 
-//----ROTATIONS--
-void	rotate_up(t_map *map);
-void	rotate_down(t_map *map);
-//-------------
-
 //----TRANSFORMATION--
 void	isometric_transform(int *x, int *y, int z, t_line *line);
 void	parallel_transform(int *x, int *y, int z, t_line *line);
-void	conic_transform(int *x, int *y, int z, t_line *line);
 void	rotation_x(int *y, int *z, double angle);
 void	rotation_y(int *x, int *z, double angle);
 void	rotation_z(int *x, int *y, double angle);

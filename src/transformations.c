@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:58:43 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 15:22:35 by anarama          ###   ########.fr       */
+/*   Updated: 2024/07/01 20:44:32 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	isometric_transform(int *x, int *y, int z, t_line *line)
 	*y = (temp_x + temp_y) * sin(angle) - z + line->src_y;
 }
 
-void parallel_transform(int *x, int *y, int z, t_line *line)
+void	parallel_transform(int *x, int *y, int z, t_line *line)
 {
     *x = *x + line->src_x;
     *y = *y - z + line->src_y;

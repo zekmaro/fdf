@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarama <anarama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andrejarama <andrejarama@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:26:36 by anarama           #+#    #+#             */
-/*   Updated: 2024/07/01 10:44:26 by anarama          ###   ########.fr       */
+/*   Updated: 2024/07/02 11:51:19 by andrejarama      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ int *convert_line_to_int_arr(char *str, t_map *map, int index)
 
 int read_map(int fd, t_map *map, char *file_name)
 {
-    char *line;
-    int i;
-    int save_length;
+    char    *line;
+    int     i;
+    int     save_length;
 
-    map->width = count_new_lines(fd); // Handle edge case if returned 0
-	map->width--; // hardcode cause i dont want to count the last new line
+    map->width = count_new_lines(fd);
+	map->width--;
 	close(fd);
 	fd = open(file_name, O_RDONLY);
     if (fd < 0 || map->width <= 0)
